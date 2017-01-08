@@ -12,6 +12,19 @@ Php library to extends PhpUnit
         * [**Strict mode - fails if - risky tests**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
         * [**Real coverage - risky tests  does not count in coverage**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
   
+## Configuration reference
+```xml
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+  beStrictAboutOutputDuringTests="true"
+  beStrictAboutChangesToGlobalState="true"
+  beStrictAboutTestsThatDoNotTestAnything="true"
+>
+  <listeners>
+        <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
+  </listeners>
+```
+
 <a name="rules-validated"></a>
 ## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules) validated by [configuration reference](#configuration-reference)
 
