@@ -2,7 +2,7 @@
 
 Php library to extends PhpUnit
 
-> :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md) compliant**
+> :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md) compliant**
 
  * [Configuration reference](#configuration-reference)
  * [Tests strategy rules validated by configuration reference](#rules-validated)
@@ -29,7 +29,7 @@ Php library to extends PhpUnit
 ```
 
 <a name="rules-validated"></a>
-## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules) validated by [configuration reference](#configuration-reference)
+## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules) validated by [configuration reference](#configuration-reference)
 
 <a name="rules-validated-mandatory"></a>
 ### Mandatory
@@ -41,11 +41,11 @@ Php library to extends PhpUnit
    
  Listener will validate following mandatory rule
 <a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
-  * [Strict mode - fails if - risky tests](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-strict-mode-fails-if-risky-tests)
+  * [Strict mode - fails if - risky tests](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-strict-mode-fails-if-risky-tests)
     * Requires
       * `beStrictAboutOutputDuringTests="true"` 
       * `beStrictAboutChangesToGlobalState="true"`
       * `beStrictAboutTestsThatDoNotTestAnything="true"` 
 <a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
-  * [Real coverage - risky tests  does not count in coverage](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-real-coverage-risky-tests) for some specific kinds of risky test   
+  * [Real coverage - risky tests  does not count in coverage](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-real-coverage-risky-tests) for some specific kinds of risky test   
      * Requires `beStrictAboutOutputDuringTests="true"`
