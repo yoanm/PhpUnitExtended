@@ -39,13 +39,9 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
             $test,
             Argument::allOf(
                 Argument::type(\PHPUnit_Framework_AssertionFailedError::class),
-                Argument::which(
-                    'getMessage',
-                    sprintf(
-                        "Strict mode - %s :\n",
-                        $expectedReason
-                    )
-                )
+                Argument::that(function (\PHPUnit_Framework_AssertionFailedError $arg) use ($expectedReason) {
+                    return preg_match(sprintf('#%s#', preg_quote($expectedReason)), $arg->getMessage());
+                })
             ),
             $time
         )
