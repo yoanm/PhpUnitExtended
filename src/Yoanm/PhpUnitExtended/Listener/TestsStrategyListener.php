@@ -3,7 +3,7 @@ namespace Yoanm\PhpUnitExtended\Listener;
 
 /**
  * @see https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-strict-mode-fails-if-risky-tests
- * Will convert a risky test regarding following option to failure 
+ * Will convert a risky test regarding following option to failure
  *  =>phpunit process will return a failed result at end
  *
  * List of managed options :
