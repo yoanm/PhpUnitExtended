@@ -25,7 +25,7 @@ class TestsStrategyListener extends \PHPUnit_Framework_BaseTestListener
      */
     public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
-        /* Must be PHPUnit_Framework_TestCase instance to have access tp "getTestResultObject" method */
+        /* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof \PHPUnit_Framework_TestCase) {
             $testResult = $test->getTestResultObject();
             switch (true) {
@@ -71,7 +71,7 @@ class TestsStrategyListener extends \PHPUnit_Framework_BaseTestListener
             $data = $coverage->getData();
             foreach ($data as $fileName => $lineData) {
                 foreach ($lineData as $lineNumber => $testIdList) {
-                    if (null !== $testIdList) {
+                    if (is_array($testIdList)) {
                         foreach ($testIdList as $testIdKey => $testId) {
                             if ($id === $testId) {
                                 unset($data[$fileName][$lineNumber][$testIdKey]);
