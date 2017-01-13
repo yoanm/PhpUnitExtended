@@ -11,11 +11,7 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
     /** @var TestsStrategyListener */
     private $listener;
 
-    const TEST_NAME = 'test_name';
-    const TEST_CLASS = TestCaseMock::class;
     const TEST_FILENAME = 'file_name';
-
-    private static $baseCoverageData = [self::TEST_FILENAME => [0 => []]];
 
     public function setUp()
     {
@@ -31,9 +27,8 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.3;
 
-        $testClass = self::TEST_CLASS;
         /** @var TestCaseMock $test */
-        $test = new $testClass(self::TEST_NAME);
+        $test = new TestCaseMock('test_name');
         /** @var \PHPUnit_Framework_TestResult $testResult */
         $testResult = new \PHPUnit_Framework_TestResult();
         /** @var \PHP_CodeCoverage_Filter $filter */
