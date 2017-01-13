@@ -1,6 +1,6 @@
 # PhpUnitExtended
 
-Php library to extends PhpUnit
+Php library to extend PhpUnit
 
 > :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md) compliant**
 
