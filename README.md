@@ -28,9 +28,19 @@ composer require --dev yoanm/php-unit-extended
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+  <!-- To convert test that output something into failed test -->
   beStrictAboutOutputDuringTests="true"
+
+  <!-- To convert test manipulates globals into failed test -->
+  backupGlobals="true"
   beStrictAboutChangesToGlobalState="true"
+
+  <!-- To convert test that do not test anything into failed test -->
   beStrictAboutTestsThatDoNotTestAnything="true"
+
+  <!-- To convert test that have not expected coverage into failed test -->
+  forceCoversAnnotation="true"
+  checkForUnintentionallyCoveredCode="true"
 >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>

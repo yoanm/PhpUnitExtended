@@ -25,7 +25,8 @@
       "Technical\\Unit\\Yoanm\\PhpUnitExtended\\": "tests/Technical/Unit",
       "Technical\\Integration\\Yoanm\\PhpUnitExtended\\": "tests/Technical/Integration",
       "Functional\\Yoanm\\PhpUnitExtended\\": "tests/Functional",
-      "Functional\\Yoanm\\PhpUnitExtended\\BehatContext\\": "features/bootstrap"
+      "Functional\\Yoanm\\PhpUnitExtended\\BehatContext\\": "app_test/features/bootstrap",
+      "AppTest\\": "app_test/src"
     }
   },
   "require": {
@@ -34,7 +35,8 @@
   "require-dev": {
     "phpunit/phpunit": "~4.0",
     "squizlabs/php_codesniffer": "2.*",
-    "behat/behat": "~3.0"
+    "behat/behat": "~3.0",
+    "symfony/process": "~3.0"
   },
   "scripts": {
     "build": [
@@ -62,7 +64,7 @@
       "./vendor/bin/phpunit --testsuite technical"
     ],
     "behat": [
-      "./vendor/bin/behat --no-snippets --colors --format progress"
+      "cd app_test && ../vendor/bin/behat --no-snippets --colors --format progress"
     ],
     "cs": [
       "./vendor/bin/phpcs"

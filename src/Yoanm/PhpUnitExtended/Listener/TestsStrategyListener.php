@@ -9,6 +9,8 @@ namespace Yoanm\PhpUnitExtended\Listener;
  * List of managed options :
  * - beStrictAboutOutputDuringTests / --report-useless-tests
  * - checkForUnintentionallyCoveredCode / --strict-coverage
+ *      => in case forceCoversAnnotation is used, and the test execute code that are not listed by
+ *          a @covers or @uses annotations
  * - beStrictAboutTestsThatDoNotTestAnything / --disallow-test-output
  * - beStrictAboutChangesToGlobalState / --strict-global-state
  *
