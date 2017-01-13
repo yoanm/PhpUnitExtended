@@ -10,7 +10,7 @@ Php library to extend PhpUnit
 
 # Install
 ```bash
-composer require yoanm/php-unit-extended
+composer require --dev yoanm/php-unit-extended
 ```
 
  * [Configuration reference](#configuration-reference)
