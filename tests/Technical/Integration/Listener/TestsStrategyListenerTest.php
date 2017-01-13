@@ -76,10 +76,13 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
                 'coverageData' => []
             ],
             'do not remove other tests coverage' => [
-                'coverageData' => [self::TEST_FILENAME => [0 => ['anAnotherId']]]
+                'coverageData' => [
+                    self::TEST_FILENAME => [0 => ['anAnotherId']],
+                    'an_another_file_name' => [0 => null],
+                ]
             ],
             'handle null testId list' => [
-                'coverageData' => ['a_another_file_name' => [0 => null]]
+                'coverageData' => ['an_another_file_name' => [0 => null]]
             ]
         ];
     }
