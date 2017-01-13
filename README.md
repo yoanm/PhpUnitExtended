@@ -31,7 +31,7 @@ composer require --dev yoanm/php-unit-extended
   <!-- To convert test that output something into failed test -->
   beStrictAboutOutputDuringTests="true"
 
-  <!-- To convert test manipulates globals into failed test -->
+  <!-- To convert test that manipulates globals into failed test -->
   backupGlobals="true"
   beStrictAboutChangesToGlobalState="true"
 

@@ -63,7 +63,7 @@ class FeatureContext implements Context
     {
         $output = $this->process->getOutput();
 
-        if (!preg_match(sprintf('#%s#', preg_quote($expectedMessage, '#')), $output)) {
+        if (!preg_match(sprintf('#%s#', $expectedMessage), $output)) {
             throw new \Exception(sprintf('"%s" not found in : %s', $expectedMessage, $output));
         }
     }
