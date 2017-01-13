@@ -3,7 +3,7 @@ namespace Yoanm\PhpUnitExtended\Listener;
 
 /**
  * @see https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-strict-mode-fails-if-risky-tests
- * Will convert a risky test regarding following option to failure 
+ * Will convert a risky test regarding following option to failure
  *  =>phpunit process will return a failed result at end
  *
  * List of managed options :
@@ -67,11 +67,10 @@ class TestsStrategyListener extends \PHPUnit_Framework_BaseTestListener
     {
         $coverage = $test->getTestResultObject()->getCodeCoverage();
         if (null !== $coverage) {
-            $id = get_class($test) . '::' . $test->getName();
-            var_dump("REMOVE $id");
+            $id = sprintf('%s::%s', get_class($test), $test->getName());
             $data = $coverage->getData();
-            foreach ($data as $fileName => $LineData) {
-                foreach ($LineData as $lineNumber => $testIdList) {
+            foreach ($data as $fileName => $lineData) {
+                foreach ($lineData as $lineNumber => $testIdList) {
                     if (null !== $testIdList) {
                         foreach ($testIdList as $testIdKey => $testId) {
                             if ($id === $testId) {
@@ -82,23 +81,6 @@ class TestsStrategyListener extends \PHPUnit_Framework_BaseTestListener
                 }
             }
             $coverage->setData($data);
-        }
-    }
-
-    /**
-     * @param array  $data
-     * @param string $id
-     */
-    private function filterCoverage(array &$data, $id)
-    {
-        foreach ($data as $key => $val) {
-            $unset = false;
-            if (is_array($val)) {
-                $this->filterCoverage($val, $id);
-            } elseif ($id === $val) {
-                var_dump("UNSET $key - $val");
-                unset($data[$key]);
-            }
         }
     }
 }
