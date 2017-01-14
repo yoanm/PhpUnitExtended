@@ -34,7 +34,7 @@ composer require --dev yoanm/php-unit-extended
     <!-- Required if you want to detect static attributes manipulation  -->
   backupStaticAttributes="true"
     
-   <!-- Required if you want to convert test that do not test anything into risky test -->
+  <!-- Required if you want to convert test that do not test anything into risky test -->
   beStrictAboutTestsThatDoNotTestAnything="true"
 
   <!-- 
@@ -42,7 +42,8 @@ composer require --dev yoanm/php-unit-extended
   into risky test. Requires "forceCoversAnnotation"
   -->
   checkForUnintentionallyCoveredCode="true"
-  forceCoversAnnotation="true" <!-- Required to detect coverage overflow -->
+    <!-- Required to detect coverage overflow -->
+  forceCoversAnnotation="true"
 >
   <!-- 
   Required if you want to :
