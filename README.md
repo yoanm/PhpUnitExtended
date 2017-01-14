@@ -6,20 +6,12 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/php-unit-extended.svg)](https://packagist.org/packages/yoanm/php-unit-extended)
 
 Php library to extend PhpUnit
-> :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md) compliant**
+> :information_source: **See [Tests strategy compliance](./TESTS_STRATEGY_COMPLIANCE.md)**
 
 # Install
 ```bash
 composer require --dev yoanm/php-unit-extended
 ```
-
- * [Configuration reference](#configuration-reference)
- * [Tests strategy rules validated by configuration reference](#rules-validated)
-  * [Mandatory](#rules-validated-mandatory)
-    * [Listeners](#rules-validated-mandatory-listeners)
-      * [TestStrategyListener](#rules-validated-mandatory-listeners-TestsStrategyListener)
-        * [**Strict mode - fails if - risky tests**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
-        * [**Real coverage - risky tests  does not count in coverage**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
 
 ## Configuration reference
 ```xml
@@ -28,47 +20,40 @@ composer require --dev yoanm/php-unit-extended
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
-  <!-- To convert test that output something into failed test -->
+  
+  <!-- Required if you want to convert test that output something into risky test -->
   beStrictAboutOutputDuringTests="true"
-
-  <!-- To convert test that manipulates globals into failed test -->
-  backupGlobals="true"<!-- For globals variables -->
-  backupStaticAttributes="true"<!-- For static attributes -->
+  
+  <!-- 
+  Required if you want to convert test that manipulates globals into risky test 
+  Requires at least "backupGlobals" or "backupStaticAttributes" (depending of what you want to detect)
+  -->
   beStrictAboutChangesToGlobalState="true"
-
-  <!-- To convert test that do not test anything into failed test -->
+    <!-- Required if you want to detect globals variables manipulation -->
+  backupGlobals="true"
+    <!-- Required if you want to detect static attributes manipulation  -->
+  backupStaticAttributes="true"
+    
+  <!-- Required if you want to convert test that do not test anything into risky test -->
   beStrictAboutTestsThatDoNotTestAnything="true"
 
-  <!-- To convert test that have not expected coverage into failed test -->
-  forceCoversAnnotation="true"
+  <!-- 
+  The two following options are required if you want to convert test that have coverage overflow 
+  into risky test. Requires "forceCoversAnnotation"
+  -->
   checkForUnintentionallyCoveredCode="true"
+    <!-- Required to detect coverage overflow -->
+  forceCoversAnnotation="true"
 >
+  <!-- 
+  Required if you want to :
+    - Convert risky tests into failed tests
+    - Remove coverage from a risky test that output something
+  -->
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
   </listeners>
 ```
-
-<a name="rules-validated"></a>
-## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules) validated by [configuration reference](#configuration-reference)
-
-<a name="rules-validated-mandatory"></a>
-### Mandatory
-
-<a name="rules-validated-mandatory-listeners"></a>
-#### Listeners
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener"></a>
- * [TestsStrategyListener](./src/Yoanm/PhpUnitExtended/Listener/TestsStrategyListener.php)
-
- Listener will validate following mandatory rule
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
-  * [Strict mode - fails if - risky tests](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-strict-mode-fails-if-risky-tests)
-    * Requires
-      * `beStrictAboutOutputDuringTests="true"`
-      * `beStrictAboutChangesToGlobalState="true"` with `backupGlobals="true"`
-      * `beStrictAboutTestsThatDoNotTestAnything="true"`
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
-  * [Real coverage - risky tests  does not count in coverage](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-real-coverage-risky-tests) for some specific kinds of risky test   
-     * Requires `beStrictAboutOutputDuringTests="true"`
 
 # Contributing
 See [contributing note](./CONTRIBUTING.md)
