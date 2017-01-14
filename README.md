@@ -27,7 +27,9 @@ composer require --dev yoanm/php-unit-extended
 ## How to
 
 <a name="how-to-convert-to-risky-test"></a>
-### Convert test into risky test
+### Convert test into risky test 
+*Do not require current library, it's just phpunit configuration*
+
 <a name="how-to-convert-to-risky-test-test-with-output"></a>
 #### Test that output something
 Use `beStrictAboutOutputDuringTests="true"` :
