@@ -1,6 +1,5 @@
-# Tests Strategy compliance
-
-> :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md) compliant**
+# Yoanm Tests Strategy compliance
+>*See [there](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md)*
 
  * [How to be compliant ?](#how-to-be-compliant)
  * [Tests strategy rules validated](#rules-validated)
