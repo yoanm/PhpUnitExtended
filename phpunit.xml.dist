@@ -18,7 +18,7 @@
          bootstrap="vendor/autoload.php"
 >
     <listeners>
-        <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
+        <listener class="Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener"/>
     </listeners>
 
 

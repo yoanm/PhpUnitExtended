@@ -1,10 +1,11 @@
 <?php
 
-/**
- * @covers \Exception
- */
 class RiskyCoverageTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers \Exception
+     * @group risky-coverage
+     */
     public function test()
     {
         $object = new \AppTest\DefaultClass();
