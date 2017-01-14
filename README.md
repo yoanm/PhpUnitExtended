@@ -32,7 +32,8 @@ composer require --dev yoanm/php-unit-extended
   beStrictAboutOutputDuringTests="true"
 
   <!-- To convert test that manipulates globals into failed test -->
-  backupGlobals="true"
+  backupGlobals="true"<!-- For globals variables -->
+  backupStaticAttributes="true"<!-- For static attributes -->
   beStrictAboutChangesToGlobalState="true"
 
   <!-- To convert test that do not test anything into failed test -->
