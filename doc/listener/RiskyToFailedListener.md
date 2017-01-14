@@ -5,7 +5,7 @@
      * [Test that output something](#in-the-box-risky-to-failed-risky-test-test-with-output)
      * [Test that do not test anything](#in-the-box-risky-to-failed-risky-test-test-tests-nothing)
      * [Test that manipulates globals](#in-the-box-risky-to-failed-risky-test-test-manipulates-globals)
-     * [Test that have coverage overflow](#in-the-box-risky-to-failed-risky-test-test-with-coverage-overflow)
+     * [Test that have unexpected coverage](#in-the-box-risky-to-failed-risky-test-test-with-unexpected-coverage)
  * [Required configuration](#required-config)
 
 *See [PhpUnit configuration reference](https://phpunit.de/manual/current/en/appendixes.configuration.html) and [PhpUnit Risky tests](https://phpunit.de/manual/current/en/risky-tests.html) for more information about a specific option*
@@ -47,8 +47,8 @@ Listener will add a failure for each risky test listed below
  * [Requirements described above](#in-the-box-risky-to-failed-risky-test-test-manipulates-globals)
  * Add `backupStaticAttributes="true"` in the configuration file or add `@backupStaticAttributes enabled` in the test
 
-<a name="in-the-box-risky-to-failed-risky-test-test-with-coverage-overflow"></a>
-#### Test that have coverage overflow
+<a name="in-the-box-risky-to-failed-risky-test-test-with-unexpected-coverage"></a>
+#### Test that have unexpected coverage
 
  * [Listener configuration](#required-config)
  * Add `checkForUnintentionallyCoveredCode="true"` in the configuration file or use `--strict-coverage` command line option
