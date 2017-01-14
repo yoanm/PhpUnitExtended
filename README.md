@@ -24,6 +24,7 @@ composer require --dev yoanm/php-unit-extended
 ```
 
 ## How to
+*See [PhpUnit configuration reference](https://phpunit.de/manual/current/en/appendixes.configuration.html) for more information about a specific option*
 
 <a name="how-to-risky-to-failed"></a>
 ### Convert risky test into failed test
