@@ -6,7 +6,6 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/php-unit-extended.svg)](https://packagist.org/packages/yoanm/php-unit-extended)
 
 Php library to extend PhpUnit
-> :information_source: **See [Tests strategy compliance](./TESTS_STRATEGY_COMPLIANCE.md)**
 
  * [Install](#install)
  * [In the box](#in-the-box)
