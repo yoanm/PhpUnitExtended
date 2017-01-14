@@ -80,9 +80,11 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
         /** @var \Exception|ObjectProphecy $exception */
         $exception = new $exceptionClass($exceptionMessage);
 
-        $test->getTestResultObject()
-            ->willReturn($testResult->reveal())
-            ->shouldBeCalled();
+        if ($exception instanceof \PHPUnit_Framework_AssertionFailedError) {
+            $test->getTestResultObject()
+                ->willReturn($testResult->reveal())
+                ->shouldBeCalled();
+        }
         $testResult->addFailure(
             $test,
             Argument::allOf(
