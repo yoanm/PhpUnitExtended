@@ -46,7 +46,6 @@ All following rules rely on [RiskyToFailedListener](./RiskyToFailedListener.md) 
   beStrictAboutChangesToGlobalState="true"
   backupGlobals="true"
   beStrictAboutTestsThatDoNotTestAnything="true"
-  beStrictAboutOutputDuringTests="true"
 >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener"/>
