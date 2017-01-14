@@ -64,7 +64,7 @@ composer require --dev yoanm/php-unit-extended
   * [Strict mode - fails if - risky tests](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-strict-mode-fails-if-risky-tests)
     * Requires
       * `beStrictAboutOutputDuringTests="true"`
-      * `beStrictAboutChangesToGlobalState="true"`
+      * `beStrictAboutChangesToGlobalState="true"` with `backupGlobals="true"`
       * `beStrictAboutTestsThatDoNotTestAnything="true"`
 <a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
   * [Real coverage - risky tests  does not count in coverage](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-real-coverage-risky-tests) for some specific kinds of risky test   
