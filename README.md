@@ -27,8 +27,7 @@ composer require --dev yoanm/php-unit-extended
 
 <a name="how-to-risky-to-failed"></a>
 ### Convert risky test into failed test
-Use `TestsStrategyListener`  :
-
+Use `TestsStrategyListener`
 <a name="how-to-risky-to-failed-risky-test-test-with-output"></a>
 #### Test that output something
 Use `beStrictAboutOutputDuringTests="true"` :
@@ -40,6 +39,7 @@ Use `beStrictAboutOutputDuringTests="true"` :
   xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
   
   beStrictAboutOutputDuringTests="true"
+
   >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
@@ -61,6 +61,7 @@ Use `beStrictAboutTestsThatDoNotTestAnything="true"` :
   xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
   
   beStrictAboutTestsThatDoNotTestAnything="true"
+
   >
 
   <listeners>
@@ -88,6 +89,7 @@ Add `backupGlobals="true"` :
   
   beStrictAboutChangesToGlobalState="true"
   backupGlobals="true"
+
   >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
@@ -100,7 +102,7 @@ Add `backupGlobals="true"` :
 
 <a name="how-to-risky-to-failed-risky-test-test-manipulates-globals-attributes"></a>
 ##### For static attributes
-Add `backupGlobals="true"` :
+Add `backupStaticAttributes="true"` :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -110,29 +112,7 @@ Add `backupGlobals="true"` :
   
   beStrictAboutChangesToGlobalState="true"
   backupStaticAttributes="true"
-  >
-  <listeners>
-        <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
-  </listeners>
-  
-  ...
 
-</phpunit>
-```
-
-<a name="how-to-risky-to-failed-risky-test-test-manipulates-globals-all"></a>
-##### For both
-Add `backupGlobals="true"` and `backupGlobals="true"` :
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
-  
-  beStrictAboutChangesToGlobalState="true"
-  backupGlobals="true"
-  backupStaticAttributes="true"
   >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
@@ -155,6 +135,7 @@ Use `checkForUnintentionallyCoveredCode="true"` and `forceCoversAnnotation="true
   
   checkForUnintentionallyCoveredCode="true"
   forceCoversAnnotation="true"
+
   >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
@@ -174,6 +155,9 @@ Use `TestsStrategyListener`  :
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+  
+  beStrictAboutOutputDuringTests="true"
+
   >
   <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
