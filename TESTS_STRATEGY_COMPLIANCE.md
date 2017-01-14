@@ -8,7 +8,7 @@
     * [Listeners](#rules-validated-mandatory-listeners)
       * [TestStrategyListener](#rules-validated-mandatory-listeners-TestsStrategyListener)
         * [**Strict mode - fails if - risky tests**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
-        * [**Real coverage - risky tests  does not count in coverage**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
+        * [**Real coverage - risky tests  does not count in coverage**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-2)
         
 ## Configuration reference
 ```xml
@@ -45,7 +45,7 @@
       * `beStrictAboutOutputDuringTests="true"`
       * `beStrictAboutChangesToGlobalState="true"` with `backupGlobals="true"`
       * `beStrictAboutTestsThatDoNotTestAnything="true"`
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
+<a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-2"></a>
   * [Real coverage - risky tests  does not count in coverage](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-real-coverage-risky-tests) for some specific kinds of risky test   
      * Requires `beStrictAboutOutputDuringTests="true"`
 
