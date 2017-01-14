@@ -13,8 +13,7 @@ class StrictCoverageListener extends \PHPUnit_Framework_BaseTestListener
      */
     public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
-        if (
-            /* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
+        if (/* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
             $test instanceof \PHPUnit_Framework_TestCase
             && $e instanceof \PHPUnit_Framework_OutputError
         ) {

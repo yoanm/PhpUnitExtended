@@ -2,6 +2,7 @@
 namespace Functional\Yoanm\PhpUnitExtended\BehatContext;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -13,34 +14,51 @@ class FeatureContext implements Context
 
     /** @var Process|null */
     private $process = null;
+    /** @var string|null */
+    private $configurationName = null;
+    /** @var string[] */
+    private $groupNameList = [];
+    /** @var bool */
+    private $withCoverage = false;
 
     /**
-     * @Given I run :testSuiteName phpunit test-suite
+     * @Given I use :configurationName phpunit configuration
      */
-    public function iRunPhpunitTestSuite($testSuiteName, $withCoverage = false)
+    public function iUsePhpunitConfiguration($configurationName)
     {
-        $argList = [
-            sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../../..'),
-            '--testsuite',
-            $testSuiteName,
-            '-c',
-            sprintf('%s/%s/phpunit.xml', __DIR__, '../..'),
-        ];
-        if (true === $withCoverage) {
-            $argList[] = '--coverage-text';
-        }
-        $processBuilder = new ProcessBuilder($argList);
-        $this->process = $processBuilder->getProcess();
-
-        $this->process->run();
+        $this->configurationName = $configurationName;
     }
 
     /**
-     * @Given I run :testSuiteName phpunit test-suite with coverage
+     * @Given I use :groupName group
      */
-    public function iRunPhpunitTestSuiteWithCoverage($testSuiteName)
+    public function iUseGroup($groupName)
     {
-        $this->iRunPhpunitTestSuite($testSuiteName, true);
+        $this->groupNameList[] = $groupName;
+    }
+
+    /**
+     * @Given I enable coverage
+     */
+    public function iEnableCoverage()
+    {
+        $this->withCoverage = true;
+    }
+
+    /**
+     * @Given I run phpunit
+     */
+    public function iRunPhpunitTestSuite()
+    {
+        $baseArgList = [
+            sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../../..')
+        ];
+        $argList = array_merge($baseArgList, $this->getCustomConfig());
+        $processBuilder = new ProcessBuilder($argList);
+
+        $this->process = $processBuilder->getProcess();
+
+        $this->process->run();
     }
 
     /**
@@ -57,14 +75,46 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Then I should have a failure containing following message :expectedMessage
+     * @Then I should have the following regexp :regexp
      */
-    public function iShouldHaveAFailureContainingFollowingMessage($expectedMessage)
+    public function iShouldHaveAFailureContainingFollowingMessage($regexp)
     {
         $output = $this->process->getOutput();
 
-        if (!preg_match(sprintf('#%s#', $expectedMessage), $output)) {
-            throw new \Exception(sprintf('"%s" not found in : %s', $expectedMessage, $output));
+        if (!preg_match($regexp, $output)) {
+            throw new \Exception(sprintf('"%s" not found in : %s', $regexp, $output));
         }
+    }
+
+    /**
+     * @Then :className should not be covered
+     */
+    public function shouldNotBeCovered($className)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCustomConfig()
+    {
+        $config = [];
+
+        if (null !== $this->configurationName) {
+            $config[] = '-c';
+            $config[] = sprintf('phpunitConfig/%s.phpunit.xml', $this->configurationName);
+        }
+
+        foreach ($this->groupNameList as $groupName) {
+            $config[] = '--group';
+            $config[] = $groupName;
+        }
+
+        if (true === $this->withCoverage) {
+            $config[] = '--coverage-text';
+        }
+
+        return $config;
     }
 }
