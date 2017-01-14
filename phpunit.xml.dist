@@ -21,6 +21,7 @@
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
     </listeners>
 
+
     <testsuites>
         <testsuite name="technical">
             <directory>tests/Technical/Unit/*</directory> <!-- launch unit before => faster than integration -->

@@ -3,6 +3,8 @@ namespace AppTest;
 
 class DefaultClass
 {
+    static $value = null;
+
     public function justForTest($b = 2)
     {
         if ($b % 2) {

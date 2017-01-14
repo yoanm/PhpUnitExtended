@@ -29,36 +29,9 @@ class TestsStrategyListener extends \PHPUnit_Framework_BaseTestListener
     {
         /* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof \PHPUnit_Framework_TestCase) {
-            $testResult = $test->getTestResultObject();
-            $reason = null;
-            switch (true) {
-                /* beStrictAboutOutputDuringTests="true" */
-                case $e instanceof \PHPUnit_Framework_OutputError:
-                    $reason = 'No output during test';
-                    /** Ack - remove coverage */
-                    $this->removeCoverageFor($test);
-                    /** END Ack */
-                    break;
-                /* checkForUnintentionallyCoveredCode="true" */
-                case $e instanceof \PHPUnit_Framework_UnintentionallyCoveredCodeError:
-                    $reason = 'Executed code must be defined with @covers and @uses annotations';
-                    break;
-                default:
-                    if (preg_match('#\-\-\- Global variables before the test#', $e->getMessage())) {
-                        /* beStrictAboutChangesToGlobalState="true" (no specific exception) for globals */
-                        $reason = 'Global variable manipulation during test';
-                    } elseif (preg_match('#\-\-\- Static attributes before the test#', $e->getMessage())) {
-                        /* beStrictAboutChangesToGlobalState="true" (no specific exception) for static var */
-                        /* Only when beStrictAboutChangesToGlobalState="true" */
-                        $reason = 'Static attribute manipulation during test';
-                    } elseif (preg_match('#This test did not perform any assertions#', $e->getMessage())) {
-                        /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
-                        $reason = 'Test that do not test anything';
-                    }
-                    break;
-            }
+            $reason = $this->processEvent($test, $e);
             if (null !== $reason) {
-                $testResult->addFailure(
+                $test->getTestResultObject()->addFailure(
                     $test,
                     new \PHPUnit_Framework_AssertionFailedError(
                         sprintf(
@@ -95,5 +68,43 @@ class TestsStrategyListener extends \PHPUnit_Framework_BaseTestListener
             }
             $coverage->setData($data);
         }
+    }
+
+    /**
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Exception                  $e
+     *
+     * @return null|string
+     */
+    protected function processEvent(\PHPUnit_Framework_TestCase $test, \Exception $e)
+    {
+        $reason = null;
+        switch (true) {
+            /* beStrictAboutOutputDuringTests="true" */
+            case $e instanceof \PHPUnit_Framework_OutputError:
+                $reason = 'No output during test';
+                /** Ack - remove coverage */
+                $this->removeCoverageFor($test);
+                /** END Ack */
+                break;
+            /* checkForUnintentionallyCoveredCode="true" */
+            case $e instanceof \PHPUnit_Framework_UnintentionallyCoveredCodeError:
+                $reason = 'Executed code must be defined with @covers and @uses annotations';
+                break;
+            default:
+                if (preg_match('#\-\-\- Global variables before the test#', $e->getMessage())) {
+                    /* beStrictAboutChangesToGlobalState="true" (no specific exception) for globals */
+                    $reason = 'No global variable manipulation during test';
+                } elseif (preg_match('#\-\-\- Static attributes before the test#', $e->getMessage())) {
+                    /* beStrictAboutChangesToGlobalState="true" (no specific exception) for static var */
+                    /* Only when beStrictAboutChangesToGlobalState="true" */
+                    $reason = 'No static attribute manipulation during test';
+                } elseif (preg_match('#This test did not perform any assertions#', $e->getMessage())) {
+                    /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
+                    $reason = 'No test that do not test anything';
+                }
+                break;
+        }
+        return $reason;
     }
 }

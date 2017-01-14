@@ -12,16 +12,22 @@ Feature: TestStrategyListener
     Then I should have 1 failure
     Then I should have a failure containing following message "1\) RiskyCoverageTest::test"
     Then I should have a failure containing following message "Strict mode - Executed code must be defined with @covers and @uses annotations"
-    And I should have a failure containing following message "src/DefaultClass.php:8"
+    And I should have a failure containing following message "src/DefaultClass.php:10"
 
   Scenario: Risky test that do not test anything
     Given I run "risky-nothing" phpunit test-suite
     Then I should have 1 failure
     Then I should have a failure containing following message "1\) RiskyNothingTest::test"
-    And I should have a failure containing following message "Strict mode - Risky test"
+    And I should have a failure containing following message "No test that do not test anything"
 
   Scenario: Risky globals manipulation
     Given I run "risky-globals" phpunit test-suite
     Then I should have 1 failure
     Then I should have a failure containing following message "1\) RiskyGlobalsTest::test"
-    Then I should have a failure containing following message "Strict mode - Risky test"
+    Then I should have a failure containing following message "No global variable manipulation during test"
+
+  Scenario: Risky test that do not test anything
+    Given I run "risky-static" phpunit test-suite
+    Then I should have 1 failure
+    Then I should have a failure containing following message "1\) RiskyStaticTest::test"
+    And I should have a failure containing following message "No static attribute manipulation during test"

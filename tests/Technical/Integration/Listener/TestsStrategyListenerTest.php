@@ -120,19 +120,19 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
             ],
             'Globals manipulation - globals' => [
                 'exceptionClass' => \PHPUnit_Framework_RiskyTestError::class,
-                'expectedMessage' => 'Global variable manipulation during test',
+                'expectedMessage' => 'No global variable manipulation during test',
                 'called' => true,
                 'exceptionMessage' => '--- Global variables before the test',
             ],
             'Globals manipulation - static' => [
                 'exceptionClass' => \PHPUnit_Framework_RiskyTestError::class,
-                'expectedMessage' => 'Static attribute manipulation during test',
+                'expectedMessage' => 'No static attribute manipulation during test',
                 'called' => true,
                 'exceptionMessage' => '--- Static attributes before the test',
             ],
             'Test nothing' => [
                 'exceptionClass' => \PHPUnit_Framework_RiskyTestError::class,
-                'expectedMessage' => 'Test that do not test anything',
+                'expectedMessage' => 'No test that do not test anything',
                 'called' => true,
                 'exceptionMessage' => 'This test did not perform any assertions',
             ],

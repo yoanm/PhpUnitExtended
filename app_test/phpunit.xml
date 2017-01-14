@@ -14,7 +14,7 @@
     <listeners>
         <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
     </listeners>
-
+    <directory>tests/*</directory>
     <testsuites>
         <testsuite name="risky-output">
             <file>tests/RiskyOutputTest.php</file>
@@ -27,6 +27,9 @@
         </testsuite>
         <testsuite name="risky-globals">
             <file>tests/RiskyGlobalsTest.php</file>
+        </testsuite>
+        <testsuite name="risky-static">
+            <file>tests/RiskyStaticTest.php</file>
         </testsuite>
     </testsuites>
 
