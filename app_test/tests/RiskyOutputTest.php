@@ -13,6 +13,7 @@ class RiskyOutputTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group risky-output-with-coverage
+     * @covers \AppTest\DefaultClass
      */
     public function testWithCoverage()
     {

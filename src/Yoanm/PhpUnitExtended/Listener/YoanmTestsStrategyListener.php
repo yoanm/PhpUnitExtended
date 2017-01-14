@@ -2,7 +2,7 @@
 namespace Yoanm\PhpUnitExtended\Listener;
 
 /**
- * @see https://github.com/yoanm/PhpUnitExtended/doc/listener/YoanmTestsStrategyListener.md
+ * @see doc/listener/YoanmTestsStrategyListener.md
  */
 class YoanmTestsStrategyListener extends DelegatingListener
 {

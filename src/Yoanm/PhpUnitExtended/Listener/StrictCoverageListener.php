@@ -2,7 +2,7 @@
 namespace Yoanm\PhpUnitExtended\Listener;
 
 /**
- * @see https://github.com/yoanm/PhpUnitExtended/doc/listener/StrictCoverageListener.md
+ * @see doc/listener/StrictCoverageListener.md
  */
 class StrictCoverageListener extends \PHPUnit_Framework_BaseTestListener
 {

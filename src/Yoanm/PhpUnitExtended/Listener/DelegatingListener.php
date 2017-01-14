@@ -2,7 +2,7 @@
 namespace Yoanm\PhpUnitExtended\Listener;
 
 /**
- * @see https://github.com/yoanm/PhpUnitExtended/doc/listener/DelegatingListener.md
+ * Simple listener delegator
  */
 class DelegatingListener implements \PHPUnit_Framework_TestListener
 {
