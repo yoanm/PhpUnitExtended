@@ -4,7 +4,6 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
          backupGlobals="true"
-         backupStaticAttributes="true"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -15,8 +14,13 @@
          checkForUnintentionallyCoveredCode="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutChangesToGlobalState="true"
+         forceCoversAnnotation="true"
          bootstrap="vendor/autoload.php"
 >
+    <listeners>
+        <listener class="Yoanm\PhpUnitExtended\Listener\TestsStrategyListener"/>
+    </listeners>
+
     <testsuites>
         <testsuite name="technical">
             <directory>tests/Technical/Unit/*</directory> <!-- launch unit before => faster than integration -->
