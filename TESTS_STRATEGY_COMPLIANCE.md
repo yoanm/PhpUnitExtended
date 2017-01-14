@@ -1,16 +1,17 @@
-# Tests Strategy compliance
+# Yoanm Tests Strategy compliance
+>*See [there](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md)*
 
-> :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md) compliant**
+ * [How to](#how-to)
+ * [Tests strategy rules validated](#rules-validated)
+  * [**Strict mode - fails if - risky tests**](#rules-validated-rule-1)
+  * [**Real coverage - risky tests  does not count in coverage**](#rules-validated-rule-2)
 
- * [Configuration reference](#configuration-reference)
- * [Tests strategy rules validated by configuration reference](#rules-validated)
-  * [Mandatory](#rules-validated-mandatory)
-    * [Listeners](#rules-validated-mandatory-listeners)
-      * [TestStrategyListener](#rules-validated-mandatory-listeners-TestsStrategyListener)
-        * [**Strict mode - fails if - risky tests**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-1)
-        * [**Real coverage - risky tests  does not count in coverage**](#rules-validated-mandatory-listeners-TestsStrategyListener-rule-2)
-        
-## Configuration reference
+<a name="how-to"></a>
+## How to
+<a name="how-to-config-file"></a>
+### Configuration file 
+*Advisable way*
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -27,25 +28,29 @@
   </listeners>
 ```
 
+<a name="how-to-command-line"></a>
+### Alternative
+
+You can also use this command line : `phpunit -c phpunit.xml --disallow-test-output --strict-global-state --report-useless-tests`
+
+In this case : 
+ * `phpunit.xml` file must contains the `listeners` node described in [Configuration file section](#how-to-config-file).
+ * Either 
+
+  * `phpunit.xml` file must contains the `backupGlobals` options described in [Configuration file section](#how-to-config-file)
+
+  * All tests must have the `@backupGlobals` annotation (prefer to use first option, easier to maintain)
+
 <a name="rules-validated"></a>
-## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules) validated by [configuration reference](#configuration-reference)
+## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules) validated
 
-<a name="rules-validated-mandatory"></a>
-### Mandatory
-
-<a name="rules-validated-mandatory-listeners"></a>
-#### Listeners
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener"></a>
- * [TestsStrategyListener](./src/Yoanm/PhpUnitExtended/Listener/TestsStrategyListener.php)
-
- Listener will validate following mandatory rule
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-1"></a>
+<a name="rules-validated-rule-1"></a>
   * [Strict mode - fails if - risky tests](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-strict-mode-fails-if-risky-tests)
     * Requires
-      * `beStrictAboutOutputDuringTests="true"`
-      * `beStrictAboutChangesToGlobalState="true"` with `backupGlobals="true"`
-      * `beStrictAboutTestsThatDoNotTestAnything="true"`
-<a name="rules-validated-mandatory-listeners-TestsStrategyListener-rule-2"></a>
+      * `beStrictAboutOutputDuringTests="true"` (or `--disallow-test-output`)
+      * `beStrictAboutChangesToGlobalState="true"` (or `--strict-global-state`) with `backupGlobals="true"` (or use `@backupGlobals enabled` in the test)
+      * `beStrictAboutTestsThatDoNotTestAnything="true"` (or `--report-useless-tests`)
+<a name="rules-validated-rule-2"></a>
   * [Real coverage - risky tests  does not count in coverage](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-real-coverage-risky-tests) for some specific kinds of risky test   
-     * Requires `beStrictAboutOutputDuringTests="true"`
+     * Requires `beStrictAboutOutputDuringTests="true"` (or `--disallow-test-output`)
 
