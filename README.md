@@ -27,7 +27,10 @@ composer require --dev yoanm/php-unit-extended
 
 <a name="how-to-risky-to-failed"></a>
 ### Convert risky test into failed test
-Use `TestsStrategyListener`
+Use `TestsStrategyListener`.
+
+Listener will add a failure for each risky test listed below
+
 <a name="how-to-risky-to-failed-risky-test-test-with-output"></a>
 #### Test that output something
 Use `beStrictAboutOutputDuringTests="true"` :
