@@ -22,7 +22,13 @@ composer require --dev yoanm/php-unit-extended
 
 <a name="in-the-box-listeners"></a>
 ### Listeners
- * [TestsStrategyListener](./doc/listener/TestsStrategyListener.md)
+
+ * DelegatingListener
+
+ A Simple listener delegator. Used for **YoanmTestsStrategyListener**.
+ * [RiskyToFailedListener](./doc/listener/RiskyToFailedListener.md)
+ * [StrictCoverageListener](./doc/listener/StrictCoverageListener.md)
+ * [YoanmTestsStrategyListener](./doc/listener/YoanmTestsStrategyListener.md)
 
 ## Contributing
 See [contributing note](./CONTRIBUTING.md)
