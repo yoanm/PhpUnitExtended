@@ -44,10 +44,8 @@ class TestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
         $test->setTestResultObject($testResult);
         $testResult->setCodeCoverage($coverage);
 
-        $id = sprintf('%s::%s', get_class($test), $test->getName());
-
         $testCoverageData = $baseCoverageData;
-        $testCoverageData[self::TEST_FILENAME][0][] = $id;
+        $testCoverageData[self::TEST_FILENAME][0][] = $test->toString();
         $coverage->setData($testCoverageData);
 
         // Mandatory, else $coverage->getData() will return an empty array (see internal behavior)

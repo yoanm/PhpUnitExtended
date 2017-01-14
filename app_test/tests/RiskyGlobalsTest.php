@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @backupGlobals
+ * @backupGlobals enabled
  */
 class RiskyGlobalsTest extends PHPUnit_Framework_TestCase
 {
