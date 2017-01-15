@@ -12,9 +12,6 @@ Used with the [configuration reference](#configuration-reference), it will allow
  * [Configuration reference](#configuration-reference)
  * [Advises](#advises)
 
-
-## In the box
-
 <a name="rules-validated"></a>
 ## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules) validated
 
