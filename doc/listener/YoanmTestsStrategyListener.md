@@ -55,4 +55,4 @@ All following rules rely on [RiskyToFailedListener](./RiskyToFailedListener.md) 
 
 ## Advises
 
-[Tests documentation](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-test-documentation) : Enable [this](.//RiskyToFailedListener.md#in-the-box-risky-to-failed-risky-test-test-with-unexpected-coverage) to convert a test into a risky test when an `@uses` is missing in a test
+[Tests documentation](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-test-documentation) : Enable ["RiskyToFailed - Test that have unexpected coverage"](.//RiskyToFailedListener.md#in-the-box-risky-to-failed-risky-test-test-with-unexpected-coverage) to convert a test into a failed test when an `@uses` is missing in a test
