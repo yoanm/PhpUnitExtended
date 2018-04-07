@@ -18,8 +18,8 @@ Feature: RiskyToFailedListener
     When I run phpunit
     Then I should have 1 failure
     Then I should have the following regexp "#1\) RiskyCoverageTest::test#"
-    Then I should have the following regexp "#Strict mode - Executed code must be defined with @covers and @uses annotations#"
-    And I should have the following regexp "#src/DefaultClass.php:10#"
+    Then I should have the following regexp "#Strict mode - Only executed code must be defined with @covers and @uses annotations#"
+    And I should have the following regexp "#AppTest\\DefaultClass::notExistingMethod#"
 
   Scenario: Risky test that do not test anything
     Given I use "risky-test-nothing" group
