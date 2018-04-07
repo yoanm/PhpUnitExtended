@@ -18,7 +18,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addListener(TestListener $listener)
+    public function addListener(TestListener $listener) : void
     {
         $this->listenerList[] = $listener;
     }
@@ -34,7 +34,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addError(Test $test, \Exception $e, $time)
+    public function addError(Test $test, \Throwable $e, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->addError($test, $e, $time);
@@ -44,7 +44,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addWarning(Test $test, Warning $e, $time)
+    public function addWarning(Test $test, Warning $e, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->addWarning($test, $e, $time);
@@ -54,7 +54,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addFailure(Test $test, AssertionFailedError $e, $time)
+    public function addFailure(Test $test, AssertionFailedError $e, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->addFailure($test, $e, $time);
@@ -64,7 +64,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addIncompleteTest(Test $test, \Exception $e, $time)
+    public function addIncompleteTest(Test $test, \Throwable $e, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->addIncompleteTest($test, $e, $time);
@@ -74,7 +74,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addRiskyTest(Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Throwable $e, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->addRiskyTest($test, $e, $time);
@@ -84,7 +84,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addSkippedTest(Test $test, \Exception $e, $time)
+    public function addSkippedTest(Test $test, \Throwable $e, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->addSkippedTest($test, $e, $time);
@@ -94,7 +94,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite(TestSuite $suite) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->startTestSuite($suite);
@@ -104,7 +104,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(TestSuite $suite) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->endTestSuite($suite);
@@ -114,7 +114,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function startTest(Test $test)
+    public function startTest(Test $test) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->startTest($test);
@@ -124,7 +124,7 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function endTest(Test $test, $time)
+    public function endTest(Test $test, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
             $listener->endTest($test, $time);

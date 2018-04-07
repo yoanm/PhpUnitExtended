@@ -15,11 +15,9 @@ class StrictCoverageListener implements TestListener
     use TestListenerDefaultImplementation;
 
     /**
-     * @param Test $test
-     * @param \Exception              $e
-     * @param float                   $time
+     * {@inheritdoc}
      */
-    public function addRiskyTest(Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Throwable $e, float $time) : void
     {
         if (/* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
             $test instanceof TestCase

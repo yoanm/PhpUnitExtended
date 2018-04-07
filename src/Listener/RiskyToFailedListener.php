@@ -17,27 +17,28 @@ class RiskyToFailedListener implements TestListener
 {
     use TestListenerDefaultImplementation;
 
-    public function addWarning(Test $test, Warning $e, $time)
-    {
-        $this->addErrorIfNeeded($test, $e, $time);
-    }
-
     /**
-     * @param Test $test
-     * @param \Exception              $e
-     * @param float                   $time
+     * {@inheritdoc}
      */
-    public function addRiskyTest(Test $test, \Exception $e, $time)
+    public function addWarning(Test $test, Warning $e, float $time) : void
+    {
+        $this->addErrorIfNeeded($test, $e, $time);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addRiskyTest(Test $test, \Throwable $e, float $time) : void
     {
         $this->addErrorIfNeeded($test, $e, $time);
     }
 
     /**
      * @param Test $test
-     * @param \Exception $e
+     * @param \Throwable $e
      * @param $time
      */
-    protected function addErrorIfNeeded(Test $test, \Exception $e, $time)
+    protected function addErrorIfNeeded(Test $test, \Throwable $e, $time)
     {
         /* Must be TestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof TestCase) {
@@ -59,11 +60,11 @@ class RiskyToFailedListener implements TestListener
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      *
      * @return null|string
      */
-    protected function getErrorReason(\Exception $e)
+    protected function getErrorReason(\Throwable $e)
     {
         $reason = null;
         switch (true) {
