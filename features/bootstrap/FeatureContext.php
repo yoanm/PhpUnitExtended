@@ -58,8 +58,6 @@ class FeatureContext implements Context
 
         $this->process = $processBuilder->getProcess();
 
-        var_dump($this->process->getCommandLine());
-
         $this->process->run();
     }
 
