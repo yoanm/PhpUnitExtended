@@ -12,15 +12,14 @@ Feature: RiskyToFailedListener
     Then I should have the following regexp "#Strict mode - No output during test#"
     And I should have the following regexp "#TEST_OUTPUT_DURING_TEST#"
 
-    @yo
   Scenario: Risky test with coverage overflow
     Given I use "risky-coverage" group
     And I enable coverage
     When I run phpunit
     Then I should have 1 failure
     Then I should have the following regexp "#1\) RiskyCoverageTest::test#"
-    Then I should have the following regexp "#Strict mode - Executed code must be defined with @covers and @uses annotations#"
-    And I should have the following regexp "#src/DefaultClass.php:10#"
+    Then I should have the following regexp "#Strict mode - Only executed code must be defined with @covers and @uses annotations#"
+    And I should have the following regexp "#AppTest\\DefaultClass::notExistingMethod#"
 
   Scenario: Risky test that do not test anything
     Given I use "risky-test-nothing" group

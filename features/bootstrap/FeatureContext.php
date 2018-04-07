@@ -103,7 +103,7 @@ class FeatureContext implements Context
 
         if (null !== $this->configurationName) {
             $config[] = '-c';
-            $config[] = sprintf('phpunitConfig/%s.phpunit.xml', $this->configurationName);
+            $config[] = sprintf('features/demo_app/phpunitConfig/%s.phpunit.xml', $this->configurationName);
         }
 
         foreach ($this->groupNameList as $groupName) {

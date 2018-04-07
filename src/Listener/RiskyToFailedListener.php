@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\UnintentionallyCoveredCodeError;
+use PHPUnit\Framework\Warning;
 
 /**
  * @see doc/listener/StrictCoverageListener.md
@@ -15,6 +16,12 @@ use PHPUnit\Framework\UnintentionallyCoveredCodeError;
 class RiskyToFailedListener implements TestListener
 {
     use TestListenerDefaultImplementation;
+
+    public function addWarning(Test $test, Warning $e, $time)
+    {
+        $this->addErrorIfNeeded($test, $e, $time);
+    }
+
     /**
      * @param Test $test
      * @param \Exception              $e
@@ -22,9 +29,19 @@ class RiskyToFailedListener implements TestListener
      */
     public function addRiskyTest(Test $test, \Exception $e, $time)
     {
+        $this->addErrorIfNeeded($test, $e, $time);
+    }
+
+    /**
+     * @param Test $test
+     * @param \Exception $e
+     * @param $time
+     */
+    protected function addErrorIfNeeded(Test $test, \Exception $e, $time)
+    {
         /* Must beTestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof TestCase) {
-            $reason = $this->processEvent($e);
+            $reason = $this->getErrorReason($e);
             if (null !== $reason) {
                 $test->getTestResultObject()->addFailure(
                     $test,
@@ -46,7 +63,7 @@ class RiskyToFailedListener implements TestListener
      *
      * @return null|string
      */
-    protected function processEvent(\Exception $e)
+    protected function getErrorReason(\Exception $e)
     {
         $reason = null;
         switch (true) {
@@ -69,6 +86,9 @@ class RiskyToFailedListener implements TestListener
                 } elseif (preg_match('#This test did not perform any assertions#', $e->getMessage())) {
                     /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
                     $reason = 'No test that do not test anything';
+                } elseif (preg_match('#Trying to @cover or @use not existing #', $e->getMessage())) {
+                    /* forceCoversAnnotation="true" (no specific exception) */
+                    $reason = 'Only executed code must be defined with @covers and @uses annotations';
                 }
                 break;
         }

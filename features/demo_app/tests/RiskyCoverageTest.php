@@ -3,7 +3,7 @@
 class RiskyCoverageTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers \Exception
+     * @covers AppTest\DefaultClass::notExistingMethod
      * @group risky-coverage
      */
     public function test()
