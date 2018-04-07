@@ -1,5 +1,5 @@
 <?php
-namespace Functional\Yoanm\PhpUnitExtended\BehatContext;
+namespace Tests\Functional\BehatContext;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;

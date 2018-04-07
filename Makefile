@@ -48,16 +48,6 @@ else
     endif
 endif
 
-ifeq ("${CI_ONLY_SYMFONY_EXTENSION}","true")
-	BEHAT_TAG_OPTION=--tags=@symfony-extension
-	PHPUNIT_GROUP_OPTION=--group=symfony-extension
-	PHPUNIT_COVERAGE_GROUP_OPTION=--group=symfony-extension
-else
-	BEHAT_TAG_OPTION=--tags=~@symfony-extension
-	PHPUNIT_GROUP_OPTION=--exclude-group=symfony-extension
-	PHPUNIT_COVERAGE_GROUP_OPTION=--exclude-group=symfony-extension
-endif
-
 ifneq ("${PHPCS_REPORT_FILE}","")
 	PHPCS_REPORT_FILE_OPTION ?= --report-file=${PHPCS_REPORT_FILE}
 endif

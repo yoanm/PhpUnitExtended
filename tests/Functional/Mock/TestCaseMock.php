@@ -1,5 +1,5 @@
 <?php
-namespace Technical\Integration\Yoanm\PhpUnitExtended\Mock;
+namespace Tests\Functional\Mock;
 
 use PHPUnit\Framework\TestCase;
 

@@ -1,12 +1,12 @@
 <?php
-namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
+namespace Tests\Functional\Listener;
 
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Filter;
-use Technical\Integration\Yoanm\PhpUnitExtended\Mock\TestCaseMock;
+use Tests\Functional\Mock\TestCaseMock;
 use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
 
 /**

@@ -1,11 +1,12 @@
 <?php
-namespace Technical\Unit\Yoanm\PhpUnitExtended\Listener;
+namespace Tests\Functional\Listener;
 
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Warning;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\PhpUnitExtended\Listener\DelegatingListener;
 
@@ -52,6 +53,25 @@ class DelegatingListenerTest extends TestCase
             ->shouldBeCalled();
 
         $this->listener->addError($test->reveal(), $exception->reveal(), $time);
+    }
+
+    public function testAddWarning()
+    {
+        $time = 0.2;
+
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
+        /** @var Warning|ObjectProphecy $exception */
+        $warning = $this->prophesize(Warning::class);
+
+        $this->listener->addListener($delegate->reveal());
+
+        $delegate->addWarning($test->reveal(), $warning->reveal(), $time)
+            ->shouldBeCalled();
+
+        $this->listener->addWarning($test->reveal(), $warning->reveal(), $time);
     }
 
     public function testAddFailure()

@@ -1,5 +1,5 @@
 <?php
-namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
+namespace Tests\Functional\Listener;
 
 use PHPUnit\Framework\TestCase;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;

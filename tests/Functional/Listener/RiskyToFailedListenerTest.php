@@ -1,5 +1,5 @@
 <?php
-namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
+namespace Tests\Functional\Listener;
 
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\OutputError;
