@@ -23,7 +23,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener = new DelegatingListener();
     }
     
-    public function testListenerList()
+    public function testShouldManagerAListOfListener()
     {
         /** @var TestListener|ObjectProphecy $delegate */
         $delegate = $this->prophesize(TestListener::class);
@@ -36,7 +36,7 @@ class DelegatingListenerTest extends TestCase
         );
     }
 
-    public function testAddError()
+    public function testShouldHandleError()
     {
         $time = 0.2;
 
@@ -55,7 +55,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->addError($test->reveal(), $exception->reveal(), $time);
     }
 
-    public function testAddWarning()
+    public function testShouldHandleWarning()
     {
         $time = 0.2;
 
@@ -74,7 +74,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->addWarning($test->reveal(), $warning->reveal(), $time);
     }
 
-    public function testAddFailure()
+    public function testShouldHandleFailure()
     {
         $time = 0.2;
 
@@ -93,7 +93,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->addFailure($test->reveal(), $exception->reveal(), $time);
     }
 
-    public function testAddIncompleteTest()
+    public function testShouldHandleIncompleteTest()
     {
         $time = 0.2;
 
@@ -112,7 +112,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->addIncompleteTest($test->reveal(), $exception->reveal(), $time);
     }
 
-    public function testAddRiskyTest()
+    public function testShouldHandleRiskyTest()
     {
         $time = 0.2;
 
@@ -131,7 +131,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->addRiskyTest($test->reveal(), $exception->reveal(), $time);
     }
 
-    public function testAddSkippedTest()
+    public function testShouldHandleSkippedTest()
     {
         $time = 0.2;
 

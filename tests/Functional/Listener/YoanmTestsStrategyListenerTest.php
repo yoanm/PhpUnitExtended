@@ -23,15 +23,18 @@ class YoanmTestsStrategyListenerTest extends TestCase
         $this->listener = new YoanmTestsStrategyListener();
     }
 
-    public function testListenerAppended()
+    public function testShouldHaveRiskyToFailListenerByDefault()
     {
-        $expectedListenerClassList = [
+        $this->shouldHaveListenerClass(
             RiskyToFailedListener::class,
-            StrictCoverageListener::class,
-        ];
+            $this->listener->getListenerList()
+        );
+    }
 
-        $this->shouldContainsOnlyClassList(
-            $expectedListenerClassList,
+    public function testShouldStrictCoverageListenerByDefault()
+    {
+        $this->shouldHaveListenerClass(
+            StrictCoverageListener::class,
             $this->listener->getListenerList()
         );
     }
@@ -40,25 +43,18 @@ class YoanmTestsStrategyListenerTest extends TestCase
      * @param array $expectedClassList
      * @param array $classList
      */
-    protected function shouldContainsOnlyClassList(array $expectedClassList, array $classList)
+    protected function shouldHaveListenerClass($class, array $classList)
     {
-        $expectedCount = count($expectedClassList);
-
-        $this->assertCount($expectedCount, $classList);
-
-        $remainingClassList = array_combine(
-            $expectedClassList,
-            array_fill(0, $expectedCount, true)
-        );
+        $found = false;
 
         foreach ($classList as $listener) {
             $listenerClass = get_class($listener);
-            if (array_key_exists($listenerClass, $remainingClassList)) {
-                $remainingClassList[$listenerClass] = false;
+            if ($listenerClass === $class) {
+                $found = true;
+                break;
             }
         }
-        $remainingClassList = array_filter($remainingClassList);
 
-        $this->assertSame([], $remainingClassList);
+        $this->assertTrue($found);
     }
 }
