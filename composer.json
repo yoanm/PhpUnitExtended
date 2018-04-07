@@ -16,8 +16,8 @@
     "issues": "https://github.com/yoanm/PhpUnitExtended/issues"
   },
   "autoload": {
-    "psr-0": {
-      "Yoanm\\PhpUnitExtended": "src/"
+    "psr-4": {
+      "Yoanm\\PhpUnitExtended\\": "src/"
     }
   },
   "autoload-dev": {
