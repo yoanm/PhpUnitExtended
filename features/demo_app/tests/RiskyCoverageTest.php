@@ -1,9 +1,9 @@
 <?php
 
-class RiskyCoverageTest extends PHPUnit_Framework_TestCase
+class RiskyCoverageTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers \Exception
+     * @covers AppTest\DefaultClass::notExistingMethod
      * @group risky-coverage
      */
     public function test()

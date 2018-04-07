@@ -1,25 +1,51 @@
 <?php
 namespace Yoanm\PhpUnitExtended\Listener;
 
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\OutputError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\UnintentionallyCoveredCodeError;
+use PHPUnit\Framework\Warning;
+
 /**
  * @see doc/listener/StrictCoverageListener.md
  */
-class RiskyToFailedListener extends \PHPUnit_Framework_BaseTestListener
+class RiskyToFailedListener implements TestListener
 {
+    use TestListenerDefaultImplementation;
+
+    public function addWarning(Test $test, Warning $e, $time)
+    {
+        $this->addErrorIfNeeded($test, $e, $time);
+    }
+
     /**
-     * @param \PHPUnit_Framework_Test $test
+     * @param Test $test
      * @param \Exception              $e
      * @param float                   $time
      */
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Exception $e, $time)
     {
-        /* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
-        if ($test instanceof \PHPUnit_Framework_TestCase) {
-            $reason = $this->processEvent($test, $e);
+        $this->addErrorIfNeeded($test, $e, $time);
+    }
+
+    /**
+     * @param Test $test
+     * @param \Exception $e
+     * @param $time
+     */
+    protected function addErrorIfNeeded(Test $test, \Exception $e, $time)
+    {
+        /* Must be TestCase instance to have access to "getTestResultObject" method */
+        if ($test instanceof TestCase) {
+            $reason = $this->getErrorReason($e);
             if (null !== $reason) {
                 $test->getTestResultObject()->addFailure(
                     $test,
-                    new \PHPUnit_Framework_AssertionFailedError(
+                    new AssertionFailedError(
                         sprintf(
                             "Strict mode - %s :\n%s",
                             $reason,
@@ -33,21 +59,20 @@ class RiskyToFailedListener extends \PHPUnit_Framework_BaseTestListener
     }
 
     /**
-     * @param \PHPUnit_Framework_TestCase $test
-     * @param \Exception                  $e
+     * @param \Exception $e
      *
      * @return null|string
      */
-    protected function processEvent(\PHPUnit_Framework_TestCase $test, \Exception $e)
+    protected function getErrorReason(\Exception $e)
     {
         $reason = null;
         switch (true) {
             /* beStrictAboutOutputDuringTests="true" */
-            case $e instanceof \PHPUnit_Framework_OutputError:
+            case $e instanceof OutputError:
                 $reason = 'No output during test';
                 break;
             /* checkForUnintentionallyCoveredCode="true" */
-            case $e instanceof \PHPUnit_Framework_UnintentionallyCoveredCodeError:
+            case $e instanceof UnintentionallyCoveredCodeError:
                 $reason = 'Executed code must be defined with @covers and @uses annotations';
                 break;
             default:
@@ -61,6 +86,9 @@ class RiskyToFailedListener extends \PHPUnit_Framework_BaseTestListener
                 } elseif (preg_match('#This test did not perform any assertions#', $e->getMessage())) {
                     /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
                     $reason = 'No test that do not test anything';
+                } elseif (preg_match('#Trying to @cover or @use not existing #', $e->getMessage())) {
+                    /* forceCoversAnnotation="true" (no specific exception) */
+                    $reason = 'Only executed code must be defined with @covers and @uses annotations';
                 }
                 break;
         }

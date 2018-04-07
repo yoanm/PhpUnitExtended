@@ -1,14 +1,18 @@
 <?php
-namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
+namespace Tests\Functional\Listener;
 
-use Prophecy\Argument;
-use Technical\Integration\Yoanm\PhpUnitExtended\Mock\TestCaseMock;
+use PHPUnit\Framework\OutputError;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Filter;
+use Tests\Functional\Mock\TestCaseMock;
 use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
 
 /**
  * @covers Yoanm\PhpUnitExtended\Listener\StrictCoverageListener
  */
-class StrictCoverageListenerTest extends \PHPUnit_Framework_TestCase
+class StrictCoverageListenerTest extends TestCase
 {
     /** @var StrictCoverageListener */
     private $listener;
@@ -31,14 +35,14 @@ class StrictCoverageListenerTest extends \PHPUnit_Framework_TestCase
 
         /** @var TestCaseMock $test */
         $test = new TestCaseMock('test_name');
-        /** @var \PHPUnit_Framework_TestResult $testResult */
-        $testResult = new \PHPUnit_Framework_TestResult();
-        /** @var \PHP_CodeCoverage_Filter $filter */
-        $filter = new \PHP_CodeCoverage_Filter('./plop', 'plop', 'plop');
-        /** @var \PHP_CodeCoverage $coverage */
-        $coverage = new \PHP_CodeCoverage(null, $filter);
-        /** @var \PHPUnit_Framework_OutputError $exception */
-        $exception = new \PHPUnit_Framework_OutputError();
+        /** @var TestResult $testResult */
+        $testResult = new TestResult();
+        /** @var Filter $filter */
+        $filter = new Filter('./plop', 'plop', 'plop');
+        /** @var CodeCoverage $coverage */
+        $coverage = new CodeCoverage(null, $filter);
+        /** @var OutputError $exception */
+        $exception = new OutputError();
 
 
         $test->setTestResultObject($testResult);

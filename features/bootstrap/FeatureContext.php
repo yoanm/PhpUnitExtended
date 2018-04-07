@@ -1,5 +1,5 @@
 <?php
-namespace Functional\Yoanm\PhpUnitExtended\BehatContext;
+namespace Tests\Functional\BehatContext;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -51,7 +51,7 @@ class FeatureContext implements Context
     public function iRunPhpunitTestSuite()
     {
         $baseArgList = [
-            sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../../..')
+            sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../..')
         ];
         $argList = array_merge($baseArgList, $this->getCustomConfig());
         $processBuilder = new ProcessBuilder($argList);
@@ -103,7 +103,7 @@ class FeatureContext implements Context
 
         if (null !== $this->configurationName) {
             $config[] = '-c';
-            $config[] = sprintf('phpunitConfig/%s.phpunit.xml', $this->configurationName);
+            $config[] = sprintf('features/demo_app/phpunitConfig/%s.phpunit.xml', $this->configurationName);
         }
 
         foreach ($this->groupNameList as $groupName) {
