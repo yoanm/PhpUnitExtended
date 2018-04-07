@@ -29,7 +29,7 @@ class StrictCoverageListenerTest extends TestCase
      *
      * @param array $baseCoverageData
      */
-    public function testCoverageRemoval(array $baseCoverageData)
+    public function testShouldCorrectlyHandleCoverageRemovalWith(array $baseCoverageData)
     {
         $time = 0.3;
 

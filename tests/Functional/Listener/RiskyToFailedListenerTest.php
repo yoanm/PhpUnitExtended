@@ -63,11 +63,17 @@ class RiskyToFailedListenerTest extends TestCase
     /**
      * @dataProvider getExceptionMessageProvider
      *
-     * @param string $exceptionClass
-     * @param string $expectedReason
+     * @param $exceptionClass
+     * @param $expectedReason
+     * @param bool|true $called
+     * @param null $exceptionMessage
      */
-    public function testHandleRiskyTest($exceptionClass, $expectedReason, $called = true, $exceptionMessage = null)
-    {
+    public function testShouldHandleRiskyTestWith(
+        $exceptionClass,
+        $expectedReason,
+        $called = true,
+        $exceptionMessage = null
+    ) {
         $time = 0.3;
 
         /** @var TestCase|ObjectProphecy $test */

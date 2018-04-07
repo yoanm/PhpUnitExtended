@@ -150,7 +150,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->addSkippedTest($test->reveal(), $exception->reveal(), $time);
     }
 
-    public function testStartTestSuite()
+    public function testShouldHandleTestSuiteStart()
     {
         /** @var TestListener|ObjectProphecy $delegate */
         $delegate = $this->prophesize(TestListener::class);
@@ -165,7 +165,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->startTestSuite($testSuite->reveal());
     }
 
-    public function testEndTestSuite()
+    public function testShouldHandleTestSuiteEnd()
     {
         /** @var TestListener|ObjectProphecy $delegate */
         $delegate = $this->prophesize(TestListener::class);
@@ -180,7 +180,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->endTestSuite($testSuite->reveal());
     }
 
-    public function testStartTest()
+    public function testShouldHandleTestStart()
     {
         /** @var TestListener|ObjectProphecy $delegate */
         $delegate = $this->prophesize(TestListener::class);
@@ -195,7 +195,7 @@ class DelegatingListenerTest extends TestCase
         $this->listener->startTest($test->reveal());
     }
 
-    public function testEndTest()
+    public function testShouldHandleTestEnd()
     {
         $time = 0.2;
 
