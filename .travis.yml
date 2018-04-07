@@ -2,16 +2,11 @@ language: php
 
 php:
   - '7.0'
-  - '7.1'
-  - '7.2'
 
 sudo: false
 
 matrix:
   fast_finish: true
-
-before_install:
-  - composer global require hirak/prestissimo
 
 install:
   - composer build-ci
