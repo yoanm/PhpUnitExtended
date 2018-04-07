@@ -1,25 +1,34 @@
 <?php
 namespace Yoanm\PhpUnitExtended\Listener;
 
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\OutputError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\UnintentionallyCoveredCodeError;
+
 /**
  * @see doc/listener/StrictCoverageListener.md
  */
-class RiskyToFailedListener extends \PHPUnit_Framework_BaseTestListener
+class RiskyToFailedListener implements TestListener
 {
+    use TestListenerDefaultImplementation;
     /**
-     * @param \PHPUnit_Framework_Test $test
+     * @param Test $test
      * @param \Exception              $e
      * @param float                   $time
      */
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Exception $e, $time)
     {
-        /* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
-        if ($test instanceof \PHPUnit_Framework_TestCase) {
+        /* Must beTestCase instance to have access to "getTestResultObject" method */
+        if ($test instanceof TestCase) {
             $reason = $this->processEvent($test, $e);
             if (null !== $reason) {
                 $test->getTestResultObject()->addFailure(
                     $test,
-                    new \PHPUnit_Framework_AssertionFailedError(
+                    new AssertionFailedError(
                         sprintf(
                             "Strict mode - %s :\n%s",
                             $reason,
@@ -33,21 +42,21 @@ class RiskyToFailedListener extends \PHPUnit_Framework_BaseTestListener
     }
 
     /**
-     * @param \PHPUnit_Framework_TestCase $test
+     * @param TestCase $test
      * @param \Exception                  $e
      *
      * @return null|string
      */
-    protected function processEvent(\PHPUnit_Framework_TestCase $test, \Exception $e)
+    protected function processEvent(TestCase $test, \Exception $e)
     {
         $reason = null;
         switch (true) {
             /* beStrictAboutOutputDuringTests="true" */
-            case $e instanceof \PHPUnit_Framework_OutputError:
+            case $e instanceof OutputError:
                 $reason = 'No output during test';
                 break;
             /* checkForUnintentionallyCoveredCode="true" */
-            case $e instanceof \PHPUnit_Framework_UnintentionallyCoveredCodeError:
+            case $e instanceof UnintentionallyCoveredCodeError:
                 $reason = 'Executed code must be defined with @covers and @uses annotations';
                 break;
             default:

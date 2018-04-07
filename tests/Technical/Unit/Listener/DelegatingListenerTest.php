@@ -1,6 +1,11 @@
 <?php
 namespace Technical\Unit\Yoanm\PhpUnitExtended\Listener;
 
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestSuite;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\PhpUnitExtended\Listener\DelegatingListener;
@@ -8,7 +13,7 @@ use Yoanm\PhpUnitExtended\Listener\DelegatingListener;
 /**
  * @covers Yoanm\PhpUnitExtended\Listener\DelegatingListener
  */
-class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
+class DelegatingListenerTest extends TestCase
 {
     /** @var DelegatingListener */
     private $listener;
@@ -20,8 +25,8 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     
     public function testListenerList()
     {
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
 
         $this->listener->addListener($delegate->reveal());
 
@@ -35,10 +40,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.2;
 
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
         /** @var \Exception|ObjectProphecy $exception */
         $exception = $this->prophesize(\Exception::class);
 
@@ -54,12 +59,12 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.2;
 
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
-        /** @var \PHPUnit_Framework_AssertionFailedError|ObjectProphecy $exception */
-        $exception = $this->prophesize(\PHPUnit_Framework_AssertionFailedError::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
+        /** @var AssertionFailedError|ObjectProphecy $exception */
+        $exception = $this->prophesize(AssertionFailedError::class);
 
         $this->listener->addListener($delegate->reveal());
 
@@ -73,10 +78,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.2;
 
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
         /** @var \Exception|ObjectProphecy $exception */
         $exception = $this->prophesize(\Exception::class);
 
@@ -92,10 +97,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.2;
 
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
         /** @var \Exception|ObjectProphecy $exception */
         $exception = $this->prophesize(\Exception::class);
 
@@ -111,10 +116,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.2;
 
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
         /** @var \Exception|ObjectProphecy $exception */
         $exception = $this->prophesize(\Exception::class);
 
@@ -128,10 +133,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testStartTestSuite()
     {
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_TestSuite|ObjectProphecy $testSuite */
-        $testSuite = $this->prophesize(\PHPUnit_Framework_TestSuite::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var TestSuite|ObjectProphecy $testSuite */
+        $testSuite = $this->prophesize(TestSuite::class);
 
         $this->listener->addListener($delegate->reveal());
 
@@ -143,10 +148,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testEndTestSuite()
     {
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_TestSuite|ObjectProphecy $testSuite */
-        $testSuite = $this->prophesize(\PHPUnit_Framework_TestSuite::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var TestSuite|ObjectProphecy $testSuite */
+        $testSuite = $this->prophesize(TestSuite::class);
 
         $this->listener->addListener($delegate->reveal());
 
@@ -158,10 +163,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testStartTest()
     {
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
 
         $this->listener->addListener($delegate->reveal());
 
@@ -175,10 +180,10 @@ class DelegatingListenerTest extends \PHPUnit_Framework_TestCase
     {
         $time = 0.2;
 
-        /** @var \PHPUnit_Framework_TestListener|ObjectProphecy $delegate */
-        $delegate = $this->prophesize(\PHPUnit_Framework_TestListener::class);
-        /** @var \PHPUnit_Framework_Test|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_Test::class);
+        /** @var TestListener|ObjectProphecy $delegate */
+        $delegate = $this->prophesize(TestListener::class);
+        /** @var Test|ObjectProphecy $test */
+        $test = $this->prophesize(Test::class);
 
         $this->listener->addListener($delegate->reveal());
 

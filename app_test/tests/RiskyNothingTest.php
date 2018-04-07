@@ -1,6 +1,6 @@
 <?php
 
-class RiskyNothingTest extends PHPUnit_Framework_TestCase
+class RiskyNothingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group risky-test-nothing

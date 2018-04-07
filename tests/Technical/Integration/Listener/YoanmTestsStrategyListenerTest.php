@@ -1,6 +1,7 @@
 <?php
 namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
 use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
@@ -11,7 +12,7 @@ use Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener;
  * @uses Yoanm\PhpUnitExtended\Listener\DelegatingListener
  * @uses Yoanm\PhpUnitExtended\Listener\StrictCoverageListener
  */
-class YoanmTestsStrategyListenerTest extends \PHPUnit_Framework_TestCase
+class YoanmTestsStrategyListenerTest extends TestCase
 {
     /** @var YoanmTestsStrategyListener */
     private $listener;

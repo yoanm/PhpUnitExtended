@@ -1,6 +1,6 @@
 <?php
 
-class RiskyOutputTest extends PHPUnit_Framework_TestCase
+class RiskyOutputTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group risky-output

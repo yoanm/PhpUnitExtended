@@ -1,6 +1,6 @@
 <?php
 
-class RiskyGlobalsTest extends PHPUnit_Framework_TestCase
+class RiskyGlobalsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @backupGlobals enabled

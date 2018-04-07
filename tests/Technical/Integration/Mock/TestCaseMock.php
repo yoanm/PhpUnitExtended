@@ -1,10 +1,8 @@
 <?php
 namespace Technical\Integration\Yoanm\PhpUnitExtended\Mock;
 
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\PhpUnitExtended\Listener\TestsStrategyListener;
+use PHPUnit\Framework\TestCase;
 
-class TestCaseMock extends \PHPUnit_Framework_TestCase
+class TestCaseMock extends TestCase
 {
 }

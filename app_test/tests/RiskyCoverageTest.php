@@ -1,6 +1,6 @@
 <?php
 
-class RiskyCoverageTest extends PHPUnit_Framework_TestCase
+class RiskyCoverageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers \Exception
