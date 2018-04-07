@@ -2,7 +2,6 @@
   "name": "yoanm/php-unit-extended",
   "type": "library",
   "license": "MIT",
-  "version": "0.3.0",
   "description": "Php library to extend PhpUnit",
   "keywords": ["PhpUnit"],
   "authors": [
