@@ -2,7 +2,7 @@
 <ruleset name="Php Unit Extended">
     <file>src</file>
     <file>tests</file>
-    <file>app_test/features/bootstrap</file>
+    <file>features/bootstrap</file>
 
     <arg value="p"/>
     <arg name="colors"/>

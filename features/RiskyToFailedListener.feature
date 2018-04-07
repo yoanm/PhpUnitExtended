@@ -12,6 +12,7 @@ Feature: RiskyToFailedListener
     Then I should have the following regexp "#Strict mode - No output during test#"
     And I should have the following regexp "#TEST_OUTPUT_DURING_TEST#"
 
+    @yo
   Scenario: Risky test with coverage overflow
     Given I use "risky-coverage" group
     And I enable coverage

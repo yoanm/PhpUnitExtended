@@ -3,17 +3,23 @@ language: php
 php:
   - '7.0'
 
+env:
+  TEST_OUTPUT_STYLE: 'pretty'
+  PHPCS_REPORT_STYLE: 'full'
+  COMPOSER_OPTIONS: '--optimize-autoloader'
+
 sudo: false
 
 matrix:
   fast_finish: true
 
 install:
-  - composer build-ci
-
+  - make build
 script:
-  - composer test
+  - make test-technical
+  - make test-functional
 
 cache:
   directories:
     - $HOME/.composer
+    - vendor

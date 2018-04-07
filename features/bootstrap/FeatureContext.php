@@ -51,12 +51,14 @@ class FeatureContext implements Context
     public function iRunPhpunitTestSuite()
     {
         $baseArgList = [
-            sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../../..')
+            sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../..')
         ];
         $argList = array_merge($baseArgList, $this->getCustomConfig());
         $processBuilder = new ProcessBuilder($argList);
 
         $this->process = $processBuilder->getProcess();
+
+        var_dump($this->process->getCommandLine());
 
         $this->process->run();
     }
