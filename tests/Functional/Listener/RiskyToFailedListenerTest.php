@@ -7,6 +7,7 @@ use PHPUnit\Framework\RiskyTestError;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\UnintentionallyCoveredCodeError;
+use PHPUnit\Framework\Warning;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
@@ -22,6 +23,41 @@ class RiskyToFailedListenerTest extends TestCase
     public function setUp()
     {
         $this->listener = new RiskyToFailedListener();
+    }
+
+    public function testShouldHandleBadCoverageTagWarning()
+    {
+        $time = 0.3;
+
+        /** @var TestCase|ObjectProphecy $test */
+        $test = $this->prophesize(TestCase::class);
+        /** @var TestResult|ObjectProphecy $testResult */
+        $testResult = $this->prophesize(TestResult::class);
+        /** @var Warning $warning */
+        $warning = new Warning(
+            'Trying to @cover or @use not existing method "AppTest\DefaultClass::notExistingMethod".'
+        );
+
+        $test->getTestResultObject()
+            ->willReturn($testResult->reveal())
+            ->shouldBeCalled();
+
+        $testResult->addFailure(
+            $test,
+            Argument::allOf(
+                Argument::type(AssertionFailedError::class),
+                Argument::that(function (AssertionFailedError $arg) {
+                    return preg_match(
+                        '#Only executed code must be defined with @covers and @uses annotations#',
+                        $arg->getMessage()
+                    );
+                })
+            ),
+            $time
+        )
+            ->shouldBeCalledTimes(1);
+
+        $this->listener->addWarning($test->reveal(), $warning, $time);
     }
 
     /**
