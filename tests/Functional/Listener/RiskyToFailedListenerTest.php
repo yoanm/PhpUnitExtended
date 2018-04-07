@@ -66,7 +66,7 @@ class RiskyToFailedListenerTest extends TestCase
      * @param string $exceptionClass
      * @param string $expectedReason
      */
-    public function testHandleRiskyTest($exceptionClass, $expectedReason, $called = true, $exceptionMessage = null)
+    public function testShouldHandleRiskyTestWith($exceptionClass, $expectedReason, $called = true, $exceptionMessage = null)
     {
         $time = 0.3;
 
