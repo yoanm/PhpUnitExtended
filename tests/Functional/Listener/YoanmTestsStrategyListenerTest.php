@@ -31,7 +31,7 @@ class YoanmTestsStrategyListenerTest extends TestCase
         );
     }
 
-    public function testShouldStrictCoverageListenerByDefault()
+    public function testShouldHaveStrictCoverageListenerByDefault()
     {
         $this->shouldHaveListenerClass(
             StrictCoverageListener::class,

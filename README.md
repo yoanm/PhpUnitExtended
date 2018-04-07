@@ -1,9 +1,11 @@
 # PhpUnitExtended
-[![Scrutinizer Build Status](https://img.shields.io/scrutinizer/build/g/yoanm/PhpUnitExtended.svg?label=Scrutinizer)](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/?branch=master) [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/yoanm/PhpUnitExtended.svg?label=Code%20quality)](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/?branch=master) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/yoanm/PhpUnitExtended.svg?label=Coverage)](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/?branch=master)
+[![License](https://img.shields.io/github/license/yoanm/PhpUnitExtended.svg)](https://github.com/yoanm/PhpUnitExtended) [![Code size](https://img.shields.io/github/languages/code-size/yoanm/PhpUnitExtended.svg)](https://github.com/yoanm/PhpUnitExtended) [![PHP Versions](https://img.shields.io/badge/php-7.1%20%2F%207.2-8892BF.svg)](https://php.net/)
 
-[![Travis Build Status](https://img.shields.io/travis/yoanm/PhpUnitExtended/master.svg?label=travis)](https://travis-ci.org/yoanm/PhpUnitExtended) [![PHP Versions](https://img.shields.io/badge/php-7.0-8892BF.svg)](https://php.net/)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/badges/build.png?b=master)](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yoanm/PhpUnitExtended/?branch=master)
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/php-unit-extended.svg)](https://packagist.org/packages/yoanm/php-unit-extended)
+[![Travis Build Status](https://img.shields.io/travis/yoanm/PhpUnitExtended/master.svg?label=travis)](https://travis-ci.org/yoanm/PhpUnitExtended) [![Travis PHP versions](https://img.shields.io/travis/php-v/yoanm/PhpUnitExtended.svg)](https://travis-ci.org/yoanm/PhpUnitExtended)
+
+[![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/php-unit-extended.svg)](https://packagist.org/packages/yoanm/php-unit-extended) [![Packagist PHP version](https://img.shields.io/packagist/php-v/yoanm/php-unit-extended.svg)](https://packagist.org/packages/yoanm/php-unit-extended)
 
 Php library to extend PhpUnit
 
