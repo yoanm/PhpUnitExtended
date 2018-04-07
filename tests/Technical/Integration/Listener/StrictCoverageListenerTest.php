@@ -4,7 +4,6 @@ namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
-use Prophecy\Argument;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Filter;
 use Technical\Integration\Yoanm\PhpUnitExtended\Mock\TestCaseMock;

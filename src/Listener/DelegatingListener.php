@@ -2,10 +2,10 @@
 namespace Yoanm\PhpUnitExtended\Listener;
 
 use PHPUnit\Framework\AssertionFailedError;
-use PHPUnit\Framework\Warning;
-use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Warning;
 
 /**
  * Simple listener delegator

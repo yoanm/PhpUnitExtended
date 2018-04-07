@@ -6,7 +6,6 @@ use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestSuite;
-use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\PhpUnitExtended\Listener\DelegatingListener;
 

@@ -2,7 +2,6 @@
 namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
 use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
 use Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener;
