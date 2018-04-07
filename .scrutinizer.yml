@@ -10,8 +10,6 @@ build_failure_conditions:
     - 'issues.label("coding-style").exists'        # No coding style issues allowed
 build:
     dependencies:
-#        before:
-#            - composer global require hirak/prestissimo
         override:
             - make build
     tests:

@@ -39,7 +39,7 @@ class RiskyToFailedListener implements TestListener
      */
     protected function addErrorIfNeeded(Test $test, \Exception $e, $time)
     {
-        /* Must beTestCase instance to have access to "getTestResultObject" method */
+        /* Must be TestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof TestCase) {
             $reason = $this->getErrorReason($e);
             if (null !== $reason) {
