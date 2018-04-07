@@ -42,7 +42,7 @@ build:
             PHPCS_REPORT_FILE: 'build/reports/cs-data'
             COMPOSER_OPTIONS: '--optimize-autoloader'
         php:
-            version: "7.0"
+            version: "7.1"
         timezone: UTC
         postgresql: false
         redis: false
