@@ -28,6 +28,8 @@ build:
         postgresql: false
         elasticsearch: false
         redis: false
+        php:
+            version: "7.1"
 
     tests:
         override:
