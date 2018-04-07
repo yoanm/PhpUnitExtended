@@ -22,18 +22,17 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Technical\\Unit\\Yoanm\\PhpUnitExtended\\": "tests/Technical/Unit",
-      "Technical\\Integration\\Yoanm\\PhpUnitExtended\\": "tests/Technical/Integration",
-      "Functional\\Yoanm\\PhpUnitExtended\\": "tests/Functional",
-      "Functional\\Yoanm\\PhpUnitExtended\\BehatContext\\": "app_test/features/bootstrap",
-      "AppTest\\": "app_test/src"
+      "Tests\\": "tests",
+      "Tests\\Functional\\BehatContext\\": "features/bootstrap",
+      "AppTest\\": "features/demo_app/src"
     }
   },
   "require": {
-    "php": ">=5.5"
+    "php": ">=7.0",
+    "symfony/dependency-injection": "^3.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "~6.0",
     "squizlabs/php_codesniffer": "2.*",
     "behat/behat": "~3.0",
     "symfony/process": "~3.0"

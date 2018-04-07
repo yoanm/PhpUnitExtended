@@ -1,6 +1,13 @@
 <?php
-namespace Technical\Integration\Yoanm\PhpUnitExtended\Listener;
+namespace Tests\Functional\Listener;
 
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\OutputError;
+use PHPUnit\Framework\RiskyTestError;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\UnintentionallyCoveredCodeError;
+use PHPUnit\Framework\Warning;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
@@ -8,7 +15,7 @@ use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
 /**
  * @covers Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener
  */
-class RiskyToFailedListenerTest extends \PHPUnit_Framework_TestCase
+class RiskyToFailedListenerTest extends TestCase
 {
     /** @var RiskyToFailedListener */
     private $listener;
@@ -18,24 +25,59 @@ class RiskyToFailedListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener = new RiskyToFailedListener();
     }
 
+    public function testShouldHandleBadCoverageTagWarning()
+    {
+        $time = 0.3;
+
+        /** @var TestCase|ObjectProphecy $test */
+        $test = $this->prophesize(TestCase::class);
+        /** @var TestResult|ObjectProphecy $testResult */
+        $testResult = $this->prophesize(TestResult::class);
+        /** @var Warning $warning */
+        $warning = new Warning(
+            'Trying to @cover or @use not existing method "AppTest\DefaultClass::notExistingMethod".'
+        );
+
+        $test->getTestResultObject()
+            ->willReturn($testResult->reveal())
+            ->shouldBeCalled();
+
+        $testResult->addFailure(
+            $test,
+            Argument::allOf(
+                Argument::type(AssertionFailedError::class),
+                Argument::that(function (AssertionFailedError $arg) {
+                    return preg_match(
+                        '#Only executed code must be defined with @covers and @uses annotations#',
+                        $arg->getMessage()
+                    );
+                })
+            ),
+            $time
+        )
+            ->shouldBeCalledTimes(1);
+
+        $this->listener->addWarning($test->reveal(), $warning, $time);
+    }
+
     /**
      * @dataProvider getExceptionMessageProvider
      *
      * @param string $exceptionClass
      * @param string $expectedReason
      */
-    public function testAddRiskyTest($exceptionClass, $expectedReason, $called = true, $exceptionMessage = null)
+    public function testHandleRiskyTest($exceptionClass, $expectedReason, $called = true, $exceptionMessage = null)
     {
         $time = 0.3;
 
-        /** @var \PHPUnit_Framework_TestCase|ObjectProphecy $test */
-        $test = $this->prophesize(\PHPUnit_Framework_TestCase::class);
-        /** @var \PHPUnit_Framework_TestResult|ObjectProphecy $testResult */
-        $testResult = $this->prophesize(\PHPUnit_Framework_TestResult::class);
+        /** @var TestCase|ObjectProphecy $test */
+        $test = $this->prophesize(TestCase::class);
+        /** @var TestResult|ObjectProphecy $testResult */
+        $testResult = $this->prophesize(TestResult::class);
         /** @var \Exception|ObjectProphecy $exception */
         $exception = new $exceptionClass($exceptionMessage);
 
-        if ($exception instanceof \PHPUnit_Framework_AssertionFailedError) {
+        if ($exception instanceof AssertionFailedError) {
             $test->getTestResultObject()
                 ->willReturn($testResult->reveal())
                 ->shouldBeCalled();
@@ -43,8 +85,8 @@ class RiskyToFailedListenerTest extends \PHPUnit_Framework_TestCase
         $testResult->addFailure(
             $test,
             Argument::allOf(
-                Argument::type(\PHPUnit_Framework_AssertionFailedError::class),
-                Argument::that(function (\PHPUnit_Framework_AssertionFailedError $arg) use ($expectedReason) {
+                Argument::type(AssertionFailedError::class),
+                Argument::that(function (AssertionFailedError $arg) use ($expectedReason) {
                     return preg_match(sprintf('#%s#', preg_quote($expectedReason)), $arg->getMessage());
                 })
             ),
@@ -62,27 +104,27 @@ class RiskyToFailedListenerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Output exception' => [
-                'exceptionClass' => \PHPUnit_Framework_OutputError::class,
+                'exceptionClass' => OutputError::class,
                 'expectedMessage' => 'No output during test',
             ],
             'Coverage exception' => [
-                'exceptionClass' => \PHPUnit_Framework_UnintentionallyCoveredCodeError::class,
+                'exceptionClass' => UnintentionallyCoveredCodeError::class,
                 'expectedMessage' => 'Executed code must be defined with @covers and @uses annotations',
             ],
             'Globals manipulation - globals' => [
-                'exceptionClass' => \PHPUnit_Framework_RiskyTestError::class,
+                'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No global variable manipulation during test',
                 'called' => true,
                 'exceptionMessage' => '--- Global variables before the test',
             ],
             'Globals manipulation - static' => [
-                'exceptionClass' => \PHPUnit_Framework_RiskyTestError::class,
+                'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No static attribute manipulation during test',
                 'called' => true,
                 'exceptionMessage' => '--- Static attributes before the test',
             ],
             'Test nothing' => [
-                'exceptionClass' => \PHPUnit_Framework_RiskyTestError::class,
+                'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No test that do not test anything',
                 'called' => true,
                 'exceptionMessage' => 'This test did not perform any assertions',

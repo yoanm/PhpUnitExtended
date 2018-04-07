@@ -6,11 +6,12 @@
          beStrictAboutOutputDuringTests="true"
          beStrictAboutChangesToGlobalState="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
+         checkForUnintentionallyCoveredCode="true"
          forceCoversAnnotation="true"
-         bootstrap="../../vendor/autoload.php"
+         bootstrap="../../../vendor/autoload.php"
 >
     <listeners>
-        <listener class="Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener"/>
+        <listener class="Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener"/>
     </listeners>
 
     <testsuites>

@@ -1,84 +1,130 @@
 <?php
 namespace Yoanm\PhpUnitExtended\Listener;
 
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\Warning;
+
 /**
  * Simple listener delegator
  */
-class DelegatingListener implements \PHPUnit_Framework_TestListener
+class DelegatingListener implements TestListener
 {
-    /** \PHPUnit_Framework_TestListener[] */
+    /** TestListener[] */
     private $listenerList = [];
 
-    public function addListener(\PHPUnit_Framework_TestListener $listener)
+    /**
+     * {@inheritdoc}
+     */
+    public function addListener(TestListener $listener)
     {
         $this->listenerList[] = $listener;
     }
 
     /**
-     * @return \PHPUnit_Framework_TestListener[]
+     * @return TestListener[]
      */
     public function getListenerList()
     {
         return $this->listenerList;
     }
 
-    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    /**
+     * {@inheritdoc}
+     */
+    public function addError(Test $test, \Exception $e, $time)
     {
         foreach ($this->listenerList as $listener) {
             $listener->addError($test, $e, $time);
         }
     }
 
-    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
+    /**
+     * {@inheritdoc}
+     */
+    public function addWarning(Test $test, Warning $e, $time)
+    {
+        foreach ($this->listenerList as $listener) {
+            $listener->addWarning($test, $e, $time);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addFailure(Test $test, AssertionFailedError $e, $time)
     {
         foreach ($this->listenerList as $listener) {
             $listener->addFailure($test, $e, $time);
         }
     }
 
-    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    /**
+     * {@inheritdoc}
+     */
+    public function addIncompleteTest(Test $test, \Exception $e, $time)
     {
         foreach ($this->listenerList as $listener) {
             $listener->addIncompleteTest($test, $e, $time);
         }
     }
 
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    /**
+     * {@inheritdoc}
+     */
+    public function addRiskyTest(Test $test, \Exception $e, $time)
     {
         foreach ($this->listenerList as $listener) {
             $listener->addRiskyTest($test, $e, $time);
         }
     }
 
-    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    /**
+     * {@inheritdoc}
+     */
+    public function addSkippedTest(Test $test, \Exception $e, $time)
     {
         foreach ($this->listenerList as $listener) {
             $listener->addSkippedTest($test, $e, $time);
         }
     }
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    /**
+     * {@inheritdoc}
+     */
+    public function startTestSuite(TestSuite $suite)
     {
         foreach ($this->listenerList as $listener) {
             $listener->startTestSuite($suite);
         }
     }
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    /**
+     * {@inheritdoc}
+     */
+    public function endTestSuite(TestSuite $suite)
     {
         foreach ($this->listenerList as $listener) {
             $listener->endTestSuite($suite);
         }
     }
 
-    public function startTest(\PHPUnit_Framework_Test $test)
+    /**
+     * {@inheritdoc}
+     */
+    public function startTest(Test $test)
     {
         foreach ($this->listenerList as $listener) {
             $listener->startTest($test);
         }
     }
 
-    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    /**
+     * {@inheritdoc}
+     */
+    public function endTest(Test $test, $time)
     {
         foreach ($this->listenerList as $listener) {
             $listener->endTest($test, $time);

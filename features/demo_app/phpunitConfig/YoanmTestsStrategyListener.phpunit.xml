@@ -4,11 +4,13 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
          beStrictAboutOutputDuringTests="true"
-         checkForUnintentionallyCoveredCode="true"
-         bootstrap="../../vendor/autoload.php"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         forceCoversAnnotation="true"
+         bootstrap="../../../vendor/autoload.php"
 >
     <listeners>
-        <listener class="Yoanm\PhpUnitExtended\Listener\StrictCoverageListener"/>
+        <listener class="Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener"/>
     </listeners>
 
     <testsuites>

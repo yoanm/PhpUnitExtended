@@ -1,30 +1,38 @@
 <?php
 namespace Yoanm\PhpUnitExtended\Listener;
 
+use PHPUnit\Framework\OutputError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+
 /**
  * @see doc/listener/StrictCoverageListener.md
  */
-class StrictCoverageListener extends \PHPUnit_Framework_BaseTestListener
+class StrictCoverageListener implements TestListener
 {
+    use TestListenerDefaultImplementation;
+
     /**
-     * @param \PHPUnit_Framework_Test $test
+     * @param Test $test
      * @param \Exception              $e
      * @param float                   $time
      */
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Exception $e, $time)
     {
         if (/* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
-            $test instanceof \PHPUnit_Framework_TestCase
-            && $e instanceof \PHPUnit_Framework_OutputError
+            $test instanceof TestCase
+            && $e instanceof OutputError
         ) {
             $this->removeCoverageFor($test);
         }
     }
 
     /**
-     * @param \PHPUnit_Framework_TestCase $test
+     * @param TestCase $test
      */
-    protected function removeCoverageFor(\PHPUnit_Framework_TestCase $test)
+    protected function removeCoverageFor(TestCase $test)
     {
         $coverage = $test->getTestResultObject()->getCodeCoverage();
         if (null !== $coverage) {

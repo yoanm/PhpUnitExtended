@@ -1,24 +1,25 @@
 language: php
 
 php:
-  - '5.5'
-  - '5.6'
   - '7.0'
+
+env:
+  TEST_OUTPUT_STYLE: 'pretty'
+  PHPCS_REPORT_STYLE: 'full'
+  COMPOSER_OPTIONS: '--optimize-autoloader'
 
 sudo: false
 
 matrix:
   fast_finish: true
 
-before_install:
-  - composer global require hirak/prestissimo
-
 install:
-  - composer build-ci
-
+  - make build
 script:
-  - composer test
+  - make test-technical
+  - make test-functional
 
 cache:
   directories:
     - $HOME/.composer
+    - vendor
