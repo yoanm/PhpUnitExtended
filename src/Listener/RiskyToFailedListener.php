@@ -24,7 +24,7 @@ class RiskyToFailedListener implements TestListener
     {
         /* Must beTestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof TestCase) {
-            $reason = $this->processEvent($test, $e);
+            $reason = $this->processEvent($e);
             if (null !== $reason) {
                 $test->getTestResultObject()->addFailure(
                     $test,
@@ -42,12 +42,11 @@ class RiskyToFailedListener implements TestListener
     }
 
     /**
-     * @param TestCase $test
-     * @param \Exception                  $e
+     * @param \Exception $e
      *
      * @return null|string
      */
-    protected function processEvent(TestCase $test, \Exception $e)
+    protected function processEvent(\Exception $e)
     {
         $reason = null;
         switch (true) {
