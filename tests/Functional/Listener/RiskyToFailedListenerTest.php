@@ -1,15 +1,15 @@
 <?php
 namespace Tests\Functional\Listener;
 
-use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\RiskyTestError;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestFailure;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\UnintentionallyCoveredCodeError;
 use PHPUnit\Framework\Warning;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Tests\Functional\Mock\TestCaseMock;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
 
 /**
@@ -17,10 +17,12 @@ use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
  */
 class RiskyToFailedListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var RiskyToFailedListener */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listener = new RiskyToFailedListener();
     }
@@ -28,36 +30,19 @@ class RiskyToFailedListenerTest extends TestCase
     public function testShouldHandleBadCoverageTagWarning()
     {
         $time = 0.3;
+        $test = new TestCaseMock();
+        $message = '"@covers AppTest\DefaultClass::notExistingMethod" is invalid';
+        $warning = new Warning($message);
 
-        /** @var TestCase|ObjectProphecy $test */
-        $test = $this->prophesize(TestCase::class);
-        /** @var TestResult|ObjectProphecy $testResult */
-        $testResult = $this->prophesize(TestResult::class);
-        /** @var Warning $warning */
-        $warning = new Warning(
-            'Trying to @cover or @use not existing method "AppTest\DefaultClass::notExistingMethod".'
-        );
+        $test->setTestResultObject(new TestResult());
 
-        $test->getTestResultObject()
-            ->willReturn($testResult->reveal())
-            ->shouldBeCalled();
+        $this->listener->addWarning($test, $warning, $time);
 
-        $testResult->addFailure(
-            $test,
-            Argument::allOf(
-                Argument::type(AssertionFailedError::class),
-                Argument::that(function (AssertionFailedError $arg) {
-                    return preg_match(
-                        '#Only executed code must be defined with @covers and @uses annotations#',
-                        $arg->getMessage()
-                    );
-                })
-            ),
-            $time
-        )
-            ->shouldBeCalledTimes(1);
-
-        $this->listener->addWarning($test->reveal(), $warning, $time);
+        $failures = $test->getTestResultObject()->failures();
+        $this->assertCount(1, $failures);
+        $failure = array_shift($failures);
+        $this->assertInstanceOf(TestFailure::class, $failure);
+        $this->assertStringContainsString($message, $failure->getExceptionAsString());
     }
 
     /**
@@ -71,36 +56,26 @@ class RiskyToFailedListenerTest extends TestCase
     public function testShouldHandleRiskyTestWith(
         $exceptionClass,
         $expectedReason,
-        $called = true,
-        $exceptionMessage = null
+        $called,
+        $exceptionMessage = 'my default exception message'
     ) {
         $time = 0.3;
-
-        /** @var TestCase|ObjectProphecy $test */
-        $test = $this->prophesize(TestCase::class);
-        /** @var TestResult|ObjectProphecy $testResult */
-        $testResult = $this->prophesize(TestResult::class);
-        /** @var \Exception|ObjectProphecy $exception */
+        $test = new TestCaseMock();
         $exception = new $exceptionClass($exceptionMessage);
 
-        if ($exception instanceof AssertionFailedError) {
-            $test->getTestResultObject()
-                ->willReturn($testResult->reveal())
-                ->shouldBeCalled();
-        }
-        $testResult->addFailure(
-            $test,
-            Argument::allOf(
-                Argument::type(AssertionFailedError::class),
-                Argument::that(function (AssertionFailedError $arg) use ($expectedReason) {
-                    return preg_match(sprintf('#%s#', preg_quote($expectedReason)), $arg->getMessage());
-                })
-            ),
-            $time
-        )
-            ->shouldBeCalledTimes($called ? 1 : 0);
+        $test->setTestResultObject(new TestResult());
 
-        $this->listener->addRiskyTest($test->reveal(), $exception, $time);
+        $this->listener->addRiskyTest($test, $exception, $time);
+
+        $failures = $test->getTestResultObject()->failures();
+        if ($called) {
+            $this->assertCount(1, $failures);
+            $failure = array_shift($failures);
+            $this->assertInstanceOf(TestFailure::class, $failure);
+            $this->assertStringContainsString($exceptionMessage, $failure->getExceptionAsString());
+        } else {
+            $this->assertCount(0, $failures);
+        }
     }
 
     /**
@@ -112,10 +87,12 @@ class RiskyToFailedListenerTest extends TestCase
             'Output exception' => [
                 'exceptionClass' => OutputError::class,
                 'expectedMessage' => 'No output during test',
+                'called' => true,
             ],
             'Coverage exception' => [
                 'exceptionClass' => UnintentionallyCoveredCodeError::class,
                 'expectedMessage' => 'Executed code must be defined with @covers and @uses annotations',
+                'called' => true,
             ],
             'Globals manipulation - globals' => [
                 'exceptionClass' => RiskyTestError::class,

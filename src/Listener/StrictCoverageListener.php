@@ -35,7 +35,7 @@ class StrictCoverageListener implements TestListener
         $coverage = $test->getTestResultObject()->getCodeCoverage();
         if (null !== $coverage) {
             $id = $test->toString();
-            $data = $coverage->getData();
+            $data = $coverage->getData()->lineCoverage();
             foreach ($data as $fileName => $lineData) {
                 foreach ($lineData as $lineNumber => $testIdList) {
                     if (is_array($testIdList)) {
@@ -47,7 +47,7 @@ class StrictCoverageListener implements TestListener
                     }
                 }
             }
-            $coverage->setData($data);
+            $coverage->getData()->setLineCoverage($data);
         }
     }
 }

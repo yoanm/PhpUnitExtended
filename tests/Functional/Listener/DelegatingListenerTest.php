@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\PhpUnitExtended\Listener\DelegatingListener;
 
@@ -15,10 +16,12 @@ use Yoanm\PhpUnitExtended\Listener\DelegatingListener;
  */
 class DelegatingListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var DelegatingListener */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listener = new DelegatingListener();
     }
@@ -64,14 +67,14 @@ class DelegatingListenerTest extends TestCase
         /** @var Test|ObjectProphecy $test */
         $test = $this->prophesize(Test::class);
         /** @var Warning|ObjectProphecy $exception */
-        $warning = $this->prophesize(Warning::class);
+        $warning = new Warning();
 
         $this->listener->addListener($delegate->reveal());
 
-        $delegate->addWarning($test->reveal(), $warning->reveal(), $time)
+        $delegate->addWarning($test->reveal(), $warning, $time)
             ->shouldBeCalled();
 
-        $this->listener->addWarning($test->reveal(), $warning->reveal(), $time);
+        $this->listener->addWarning($test->reveal(), $warning, $time);
     }
 
     public function testShouldHandleFailure()

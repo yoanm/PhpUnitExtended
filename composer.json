@@ -27,50 +27,15 @@
     }
   },
   "require": {
-    "php": ">=7.1",
-    "phpunit/phpunit": "~7.0"
+    "php": "^8.0",
+    "phpunit/phpunit": "^9.0",
+    "phpunit/php-code-coverage": "^9.2.4"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "3.*",
+    "squizlabs/php_codesniffer": "^3.5",
     "behat/behat": "~3.0",
-    "symfony/process": "~3.0"
-  },
-  "scripts": {
-    "build": [
-      "@composer install --prefer-dist --optimize-autoloader --ansi --no-suggest --no-interaction"
-    ],
-    "build-ci": [
-      "mkdir -p build/coverage",
-      "@composer install --prefer-dist --ansi --no-suggest --no-interaction"
-    ],
-    "ci": [
-      "rm composer.lock 2>/dev/null | true",
-      "@build-ci",
-      "@cs",
-      "@test"
-    ],
-    "test": [
-      "@t-test",
-      "@f-test"
-    ],
-    "f-test": [
-      "./vendor/bin/phpunit --testsuite functional",
-      "@behat"
-    ],
-    "t-test": [
-      "./vendor/bin/phpunit --testsuite technical"
-    ],
-    "behat": [
-      "cd app_test && ../vendor/bin/behat --no-snippets --colors --format progress"
-    ],
-    "cs": [
-      "./vendor/bin/phpcs"
-    ],
-    "coverage": [
-      "./vendor/bin/phpunit --coverage-html build/coverage"
-    ],
-    "coverage-clover": [
-      "./vendor/bin/phpunit --coverage-clover build/coverage/clover.xml"
-    ]
+    "symfony/process": "^5.4",
+    "dvdoug/behat-code-coverage": "^5.0",
+    "phpspec/prophecy-phpunit": "^2.0"
   }
 }

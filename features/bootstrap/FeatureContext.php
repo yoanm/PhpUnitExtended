@@ -4,7 +4,6 @@ namespace Tests\Functional\BehatContext;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * Defines application features from the specific context.
@@ -54,9 +53,12 @@ class FeatureContext implements Context
             sprintf('%s/%s/vendor/bin/phpunit', __DIR__, '../..')
         ];
         $argList = array_merge($baseArgList, $this->getCustomConfig());
-        $processBuilder = new ProcessBuilder($argList);
 
-        $this->process = $processBuilder->getProcess();
+        $env = [];
+        if (true === $this->withCoverage) {
+            $env['XDEBUG_MODE'] = 'coverage';
+        }
+        $this->process = new Process($argList, null, $env);
 
         $this->process->run();
     }

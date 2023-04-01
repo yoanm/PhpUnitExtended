@@ -2,6 +2,7 @@
 namespace Tests\Functional\Listener;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Yoanm\PhpUnitExtended\Listener\RiskyToFailedListener;
 use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
 use Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener;
@@ -13,12 +14,14 @@ use Yoanm\PhpUnitExtended\Listener\YoanmTestsStrategyListener;
  */
 class YoanmTestsStrategyListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var YoanmTestsStrategyListener */
     private $listener;
 
     const TEST_FILENAME = 'file_name';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listener = new YoanmTestsStrategyListener();
     }
