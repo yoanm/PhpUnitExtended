@@ -17,7 +17,7 @@ matrix:
 install:
   - make build
 script:
-  - make test-technical
+  - make test-unit
   - make test-functional
 
 cache:

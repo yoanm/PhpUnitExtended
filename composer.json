@@ -33,44 +33,7 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
     "behat/behat": "~3.0",
-    "symfony/process": "~3.0"
-  },
-  "scripts": {
-    "build": [
-      "@composer install --prefer-dist --optimize-autoloader --ansi --no-suggest --no-interaction"
-    ],
-    "build-ci": [
-      "mkdir -p build/coverage",
-      "@composer install --prefer-dist --ansi --no-suggest --no-interaction"
-    ],
-    "ci": [
-      "rm composer.lock 2>/dev/null | true",
-      "@build-ci",
-      "@cs",
-      "@test"
-    ],
-    "test": [
-      "@t-test",
-      "@f-test"
-    ],
-    "f-test": [
-      "./vendor/bin/phpunit --testsuite functional",
-      "@behat"
-    ],
-    "t-test": [
-      "./vendor/bin/phpunit --testsuite technical"
-    ],
-    "behat": [
-      "cd app_test && ../vendor/bin/behat --no-snippets --colors --format progress"
-    ],
-    "cs": [
-      "./vendor/bin/phpcs"
-    ],
-    "coverage": [
-      "./vendor/bin/phpunit --coverage-html build/coverage"
-    ],
-    "coverage-clover": [
-      "./vendor/bin/phpunit --coverage-clover build/coverage/clover.xml"
-    ]
+    "symfony/process": "~3.0",
+    "dvdoug/behat-code-coverage": "^5.0"
   }
 }
