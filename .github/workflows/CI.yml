@@ -60,7 +60,7 @@ jobs:
         with:
           php-version: '${{ matrix.php-version }}'
           tools: composer
-          coverage: ${{ env.COVERAGE_TYPE }}
+          coverage: xdebug # Coverage driver is mandatory to be able to use/cover StrictCoverageListener
         env:
           # Always use latest available patch for the version
           update: true
