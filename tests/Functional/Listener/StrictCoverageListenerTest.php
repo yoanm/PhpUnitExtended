@@ -4,8 +4,11 @@ namespace Tests\Functional\Listener;
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
+use Prophecy\PhpUnit\ProphecyTrait;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Driver\Xdebug3Driver;
 use SebastianBergmann\CodeCoverage\Filter;
+use SebastianBergmann\CodeCoverage\ProcessedCodeCoverageData;
 use Tests\Functional\Mock\TestCaseMock;
 use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
 
@@ -14,12 +17,14 @@ use Yoanm\PhpUnitExtended\Listener\StrictCoverageListener;
  */
 class StrictCoverageListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var StrictCoverageListener */
     private $listener;
 
     const TEST_FILENAME = 'file_name';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->listener = new StrictCoverageListener();
     }
@@ -33,15 +38,10 @@ class StrictCoverageListenerTest extends TestCase
     {
         $time = 0.3;
 
-        /** @var TestCaseMock $test */
-        $test = new TestCaseMock('test_name');
-        /** @var TestResult $testResult */
+        $test = new TestCaseMock();
         $testResult = new TestResult();
-        /** @var Filter $filter */
-        $filter = new Filter('./plop', 'plop', 'plop');
-        /** @var CodeCoverage $coverage */
-        $coverage = new CodeCoverage(null, $filter);
-        /** @var OutputError $exception */
+        $filter = new Filter();
+        $coverage = new CodeCoverage(new Xdebug3Driver($filter), $filter);
         $exception = new OutputError();
 
 
@@ -50,11 +50,9 @@ class StrictCoverageListenerTest extends TestCase
 
         $testCoverageData = $baseCoverageData;
         $testCoverageData[self::TEST_FILENAME][0][] = $test->toString();
-        $coverage->setData($testCoverageData);
-
-        // Mandatory, else $coverage->getData() will return an empty array (see internal behavior)
-        $filter->addFileToWhitelist('plop.plop');
-        //$coverage->setAddUncoveredFilesFromWhitelist(false);
+        $processed = new ProcessedCodeCoverageData();
+        $processed->setLineCoverage($testCoverageData);
+        $coverage->setData($processed);
 
         $this->listener->addRiskyTest($test, $exception, $time);
 
@@ -62,7 +60,7 @@ class StrictCoverageListenerTest extends TestCase
         if (!isset($expectedCoverageData[self::TEST_FILENAME][0])) {
             $expectedCoverageData[self::TEST_FILENAME][0] = [];
         }
-        $this->assertSame($expectedCoverageData, $coverage->getData(true));
+        $this->assertEquals($expectedCoverageData, $coverage->getData(true)->lineCoverage());
     }
 
     /**

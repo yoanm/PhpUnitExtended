@@ -16,7 +16,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ORIGINAL_REPO: yoanm/PhpUnitExtended
   TEST_OUTPUT_STYLE: pretty
   CODACY_CACHE_PATH: ~/.cache/codacy
   CODACY_BIN: ~/.cache/codacy/codacy.sh
@@ -31,15 +30,21 @@ jobs:
       fail-fast: true
       max-parallel: 4
       matrix:
-        phpunit-version:
-          - 9.0
-          - 8.0
-          - 7.0
-        php-version:
-          - 8.2 # Latest PHP version
-          - 8.0 # Lowest v8
-          - 7.4 # Latest v7
-          - 7.1 # Lowest PHP version
+        include:
+          # Bare minimum => Lowest versions allowed by composer config
+          - phpunit-version: '9.0'
+            php-version: '8.0'
+            composer-flag: --prefer-lowest
+          # Up to date versions => Latest versions allowed by composer config
+          - phpunit-version: '9.0'
+            php-version: '8.2'
+          # Late phpunit migration => Lowest phpunit version with latest minor php version allowed by composer config
+          - phpunit-version: '9.0'
+            php-version: '8.2'
+            composer-flag: --prefer-lowest
+          # Late php migration => Latest phpunit version with lowest minor php version allowed by composer config
+          - phpunit-version: '9.0'
+            php-version: '8.0'
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -82,9 +87,9 @@ jobs:
 
       - name: Build
         run: |
-          composer require -W ${{ env.COMPOSER_OPTIONS }} \
-            phpunit/phpunit:^${{ matrix.phpunit-version }}
-          && composer update \
+          composer require -W ${{ env.COMPOSER_OPTIONS }} ${{ matrix.composer-flag }} \
+            phpunit/phpunit:^${{ matrix.phpunit-version }} \
+          && composer update ${{ matrix.composer-flag }} \
           && make build
 
       - name: Tests
@@ -93,7 +98,7 @@ jobs:
       # Upload to codacy first as codecov action always remove coverage files despite move_coverage_to_trash at false
       # And only if it's not a PR from a fork => Can't work as codacy secret is not accessible in that context
       - name: Upload coverages to Codacy
-        if: ${{ github.event.pull_request.head.repo.full_name == env.ORIGINAL_REPO && env.COVERAGE_TYPE == 'xdebug' }}
+        if: ${{ github.event.pull_request.head.repo.full_name == 'yoanm/PhpUnitExtended' && env.COVERAGE_TYPE == 'xdebug' }}
         run: ${{ env.CODACY_BIN }} report -r build/coverage-phpunit/unit.clover -r build/coverage-behat/clover.xml -r build/coverage-phpunit/functional.clover -t ${{ secrets.CODACY_PROJECT_TOKEN }} --partial
 
       # See the reports at https://codecov.io/gh/yoanm/PhpUnitExtended
@@ -158,7 +163,7 @@ jobs:
   finalize-codacy-coverage-report:
     runs-on: ubuntu-latest
     name: Finalize Codacy coverage report
-    if: ${{ github.event.pull_request.head.repo.full_name == env.ORIGINAL_REPO }}
+    if: ${{ github.event.pull_request.head.repo.full_name == 'yoanm/PhpUnitExtended' }}
     needs: [ tests ]
     steps:
       - name: Setup cache

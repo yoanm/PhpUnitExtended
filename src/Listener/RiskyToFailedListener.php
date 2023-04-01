@@ -41,7 +41,7 @@ class RiskyToFailedListener implements TestListener
     protected function addErrorIfNeeded(Test $test, \Throwable $e, $time)
     {
         /* Must be TestCase instance to have access to "getTestResultObject" method */
-        if ($test instanceof TestCase) {
+        if ($test instanceof TestCase && $test->getTestResultObject() !== null) {
             $reason = $this->getErrorReason($e);
             if (null !== $reason) {
                 $test->getTestResultObject()->addFailure(
@@ -87,12 +87,13 @@ class RiskyToFailedListener implements TestListener
                 } elseif (preg_match('#This test did not perform any assertions#', $e->getMessage())) {
                     /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
                     $reason = 'No test that do not test anything';
-                } elseif (preg_match('#Trying to @cover or @use not existing #', $e->getMessage())) {
+                } elseif (preg_match('#"@covers [^"]+" is invalid#', $e->getMessage())) {
                     /* forceCoversAnnotation="true" (no specific exception) */
                     $reason = 'Only executed code must be defined with @covers and @uses annotations';
                 }
                 break;
         }
+
         return $reason;
     }
 }

@@ -39,6 +39,8 @@ else
 	BEHAT_OUTPUT_STYLE_OPTION ?= --format progress
 endif
 
+# Coverage driver is mandatory to be able to use/cover StrictCoverageListener
+export XDEBUG_MODE=coverage
 ifdef COVERAGE_OUTPUT_STYLE
 	ifeq ("${COVERAGE_OUTPUT_STYLE}","html")
 		PHPUNIT_COVERAGE_OPTION ?= --coverage-html ${PHPUNIT_COVERAGE_DIRECTORY}
@@ -83,8 +85,7 @@ ifdef PHPUNIT_COVERAGE_OPTION
 test-unit: create-build-directories
 endif
 test-unit:
-	# Coverage driver is mandatory to be able to cover StrictCoverageListener
-	XDEBUG_MODE=coverage ./vendor/bin/phpunit ${PHPUNIT_COLOR_OPTION} ${PHPUNIT_OUTPUT_STYLE_OPTION} ${PHPUNIT_COVERAGE_OPTION} --testsuite technical
+	./vendor/bin/phpunit ${PHPUNIT_COLOR_OPTION} ${PHPUNIT_OUTPUT_STYLE_OPTION} ${PHPUNIT_COVERAGE_OPTION} --testsuite technical
 
 ifdef BEHAT_COVERAGE_OPTION
 test-functional: create-build-directories
