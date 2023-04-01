@@ -17,6 +17,7 @@ concurrency:
 
 env:
   TEST_OUTPUT_STYLE: pretty
+  COMPOSER_OPTIONS: --optimize-autoloader
   CODACY_CACHE_PATH: ~/.cache/codacy
   CODACY_BIN: ~/.cache/codacy/codacy.sh
 
