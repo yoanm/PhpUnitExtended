@@ -68,12 +68,12 @@ class RiskyToFailedListener implements TestListener
         if ($exception instanceof OutputError) {
             /* beStrictAboutOutputDuringTests="true" */
             return 'No output during test';
-        } else if ($exception instanceof UnintentionallyCoveredCodeError
+        } elseif ($exception instanceof UnintentionallyCoveredCodeError
             || $exception instanceof InvalidCoversTargetException
         ) {
             /* checkForUnintentionallyCoveredCode="true" */
             return 'Executed code must be defined with @covers and @uses annotations';
-        } else if (str_contains($exception->getMessage(), '--- Global variables before the test')) {
+        } elseif (str_contains($exception->getMessage(), '--- Global variables before the test')) {
             /* beStrictAboutChangesToGlobalState="true" (no specific exception) for globals */
             return 'No global variable manipulation during test';
         } elseif (str_contains($exception->getMessage(), '--- Static attributes before the test')) {
