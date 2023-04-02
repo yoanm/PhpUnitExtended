@@ -90,6 +90,7 @@ jobs:
         run: |
           composer require -W ${{ env.COMPOSER_OPTIONS }} ${{ matrix.composer-flag }} \
             phpunit/phpunit:^${{ matrix.phpunit-version }} \
+            phpunit/php-code-coverage:^${{ matrix.phpunit-version }} \
           && composer update ${{ matrix.composer-flag }} \
           && make build
 
@@ -235,6 +236,7 @@ jobs:
           composer config minimum-stability dev \
           && composer require -W ${{ env.COMPOSER_OPTIONS }} \
             phpunit/phpunit:^${{ matrix.phpunit-version }} \
+            phpunit/php-code-coverage:^${{ matrix.phpunit-version }} \
           && composer update \
           && make build
 
