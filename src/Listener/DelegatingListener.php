@@ -74,10 +74,10 @@ class DelegatingListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addRiskyTest(Test $test, \Throwable $e, float $time) : void
+    public function addRiskyTest(Test $test, \Throwable $exception, float $time) : void
     {
         foreach ($this->listenerList as $listener) {
-            $listener->addRiskyTest($test, $e, $time);
+            $listener->addRiskyTest($test, $exception, $time);
         }
     }
 

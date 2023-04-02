@@ -90,6 +90,7 @@ jobs:
         run: |
           composer require -W ${{ env.COMPOSER_OPTIONS }} ${{ matrix.composer-flag }} \
             phpunit/phpunit:^${{ matrix.phpunit-version }} \
+            phpunit/php-code-coverage:^${{ matrix.phpunit-version }} \
           && composer update ${{ matrix.composer-flag }} \
           && make build
 
@@ -155,7 +156,7 @@ jobs:
         run: make build
 
       - name: ComposerRequireChecker
-        uses: docker://webfactory/composer-require-checker:3.2.0
+        uses: docker://webfactory/composer-require-checker:4.5.0
 
       - name: Dependencies check
         if: ${{ github.event_name == 'pull_request' }}
@@ -232,8 +233,11 @@ jobs:
 
       - name: Build
         run: |
-          composer require -W ${{ env.COMPOSER_OPTIONS }} \
+          composer config minimum-stability dev \
+          && composer require -W ${{ env.COMPOSER_OPTIONS }} \
             phpunit/phpunit:^${{ matrix.phpunit-version }} \
+            phpunit/php-code-coverage:^${{ matrix.phpunit-version }} \
+            phpspec/prophecy-phpunit:">=2" \
           && composer update \
           && make build
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @coversNothing
+ */
 class RiskyOutputTest extends \PHPUnit\Framework\TestCase
 {
     /**
