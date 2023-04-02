@@ -237,7 +237,7 @@ jobs:
           && composer require -W ${{ env.COMPOSER_OPTIONS }} \
             phpunit/phpunit:^${{ matrix.phpunit-version }} \
             phpunit/php-code-coverage:^${{ matrix.phpunit-version }} \
-            phpspec/prophecy-phpunit:>=2 \
+            phpspec/prophecy-phpunit:">=2" \
           && composer update \
           && make build
 
