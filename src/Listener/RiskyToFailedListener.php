@@ -7,6 +7,7 @@ use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\UnintentionallyCoveredCodeError;
 use PHPUnit\Framework\Warning;
 
@@ -41,9 +42,12 @@ class RiskyToFailedListener implements TestListener
     protected function addErrorIfNeeded(Test $test, \Throwable $e, $time)
     {
         /* Must be TestCase instance to have access to "getTestResultObject" method */
-        if ($test instanceof TestCase && $test->getTestResultObject() !== null) {
+        if ($test instanceof TestCase) {
             $reason = $this->getErrorReason($e);
             if (null !== $reason) {
+                if (!$test->getTestResultObject()) {
+                    $test->setTestResultObject(new TestResult());
+                }
                 $test->getTestResultObject()->addFailure(
                     $test,
                     new AssertionFailedError(
@@ -66,7 +70,7 @@ class RiskyToFailedListener implements TestListener
      */
     protected function getErrorReason(\Throwable $e)
     {
-        $reason = null;
+        $reason = $e->getMessage();
         switch (true) {
             /* beStrictAboutOutputDuringTests="true" */
             case $e instanceof OutputError:
