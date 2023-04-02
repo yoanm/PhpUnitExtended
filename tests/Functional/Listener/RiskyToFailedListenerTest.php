@@ -1,7 +1,9 @@
 <?php
 namespace Tests\Functional\Listener;
 
+use PHPUnit\Framework\CoveredCodeNotExecutedException;
 use PHPUnit\Framework\InvalidCoversTargetException;
+use PHPUnit\Framework\MissingCoversAnnotationException;
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\RiskyTestError;
 use PHPUnit\Framework\TestCase;
@@ -105,6 +107,24 @@ class RiskyToFailedListenerTest extends TestCase
                 'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No test that do not test anything',
                 'exceptionMessage' => 'This test did not perform any assertions',
+            ],
+            'Coverage exception - CoveredCodeNotExecutedException instance' => [
+                'exceptionClass' => CoveredCodeNotExecutedException::class,
+                'expectedMessage' => 'Only executed code must be defined with @covers and @uses annotations',
+            ],
+            'Coverage exception - by message' => [
+                'exceptionClass' => RiskyTestError::class,
+                'expectedMessage' => 'Only executed code must be defined with @covers and @uses annotations',
+                'exceptionMessage' => '"@covers A\Class" is invalid'
+            ],
+            'Missing @covers - MissingCoversAnnotationException instance' => [
+                'exceptionClass' => MissingCoversAnnotationException::class,
+                'expectedMessage' => 'Missing @covers or @coversNothing annotation',
+            ],
+            'Missing @covers - by message' => [
+                'exceptionClass' => RiskyTestError::class,
+                'expectedMessage' => 'Missing @covers or @coversNothing annotation',
+                'exceptionMessage' => '"@covers A\Class" is invalid'
             ],
             'other exceptions' => [
                 'exceptionClass' => \Exception::class,
