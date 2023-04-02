@@ -38,11 +38,11 @@ class RiskyToFailedListener implements TestListener
     }
 
     /**
-     * @param Test $test
-     * @param \Throwable $e
+     * @param Test       $test
+     * @param \Throwable $exception
      * @param $time
      */
-    protected function addErrorIfNeeded(Test $test, \Throwable $e, $time)
+    protected function addErrorIfNeeded(Test $test, \Throwable $exception, $time)
     {
         /* Must be TestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof TestCase) {
@@ -54,8 +54,8 @@ class RiskyToFailedListener implements TestListener
                 new AssertionFailedError(
                     sprintf(
                         "Strict mode - %s :\n%s",
-                        $this->getErrorReason($e),
-                        $e->getMessage()
+                        $this->getErrorReason($exception),
+                        $exception->getMessage()
                     )
                 ),
                 $time
@@ -63,44 +63,42 @@ class RiskyToFailedListener implements TestListener
         }
     }
 
-    protected function getErrorReason(\Throwable $e): string
+    protected function getErrorReason(\Throwable $exception): string
     {
-        $reason = $e->getMessage();
-        switch (true) {
+        if ($exception instanceof OutputError) {
             /* beStrictAboutOutputDuringTests="true" */
-            case $e instanceof OutputError:
-                return 'No output during test';
+            return 'No output during test';
+        } else if ($exception instanceof UnintentionallyCoveredCodeError
+            || $exception instanceof InvalidCoversTargetException
+        ) {
             /* checkForUnintentionallyCoveredCode="true" */
-            case $e instanceof UnintentionallyCoveredCodeError:
-            case $e instanceof InvalidCoversTargetException:
-                return 'Executed code must be defined with @covers and @uses annotations';
-            default:
-                if (str_contains($e->getMessage(), '--- Global variables before the test')) {
-                    /* beStrictAboutChangesToGlobalState="true" (no specific exception) for globals */
-                    return 'No global variable manipulation during test';
-                } elseif (str_contains($e->getMessage(), '--- Static attributes before the test')) {
-                    /* beStrictAboutChangesToGlobalState="true" (no specific exception) for static var */
-                    /* Only when beStrictAboutChangesToGlobalState="true" */
-                    return 'No static attribute manipulation during test';
-                } elseif (str_contains($e->getMessage(), 'This test did not perform any assertions')) {
-                    /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
-                    return 'No test that do not test anything';
-                } elseif ($e instanceof CoveredCodeNotExecutedException
-                    || preg_match('#"@covers [^"]+" is invalid#', $e->getMessage())
-                ) {
-                    /* forceCoversAnnotation="true" (no specific exception) */
-                    return 'Only executed code must be defined with @covers and @uses annotations';
-                } elseif ($e instanceof MissingCoversAnnotationException
-                    || str_contains(
-                        $e->getMessage(),
-                        'This test does not have a @covers annotation but is expected to have one'
-                    )
-                ) {
-                    /* forceCoversAnnotation="true" (no specific exception) */
-                    return 'Missing @covers or @coversNothing annotation';
-                }
+            return 'Executed code must be defined with @covers and @uses annotations';
+        } else if (str_contains($exception->getMessage(), '--- Global variables before the test')) {
+            /* beStrictAboutChangesToGlobalState="true" (no specific exception) for globals */
+            return 'No global variable manipulation during test';
+        } elseif (str_contains($exception->getMessage(), '--- Static attributes before the test')) {
+            /* beStrictAboutChangesToGlobalState="true" (no specific exception) for static var */
+            /* Only when beStrictAboutChangesToGlobalState="true" */
+            return 'No static attribute manipulation during test';
+        } elseif (str_contains($exception->getMessage(), 'This test did not perform any assertions')) {
+            /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
+            return 'No test that do not test anything';
+        } elseif ($exception instanceof CoveredCodeNotExecutedException
+            || preg_match('#"@covers [^"]+" is invalid#', $exception->getMessage())
+        ) {
+            /* forceCoversAnnotation="true" (no specific exception) */
+            return 'Only executed code must be defined with @covers and @uses annotations';
+        } elseif ($exception instanceof MissingCoversAnnotationException
+            || str_contains(
+                $exception->getMessage(),
+                'This test does not have a @covers annotation but is expected to have one'
+            )
+        ) {
+            /* forceCoversAnnotation="true" (no specific exception) */
+            return 'Missing @covers or @coversNothing annotation';
         }
 
-        return $reason;
+        // Always return an error even if it's not a known/managed error
+        return $exception->getMessage();
     }
 }
