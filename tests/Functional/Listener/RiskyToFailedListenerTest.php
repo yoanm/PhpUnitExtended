@@ -64,8 +64,6 @@ class RiskyToFailedListenerTest extends TestCase
         $test = new TestCaseMock();
         $exception = new $exceptionClass($exceptionMessage);
 
-        $test->setTestResultObject(new TestResult());
-
         $this->listener->addRiskyTest($test, $exception, $time);
 
         $failures = $test->getTestResultObject()->failures();

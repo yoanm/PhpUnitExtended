@@ -232,7 +232,8 @@ jobs:
 
       - name: Build
         run: |
-          composer require -W ${{ env.COMPOSER_OPTIONS }} \
+          composer config minimum-stability dev \
+          && composer require -W ${{ env.COMPOSER_OPTIONS }} \
             phpunit/phpunit:^${{ matrix.phpunit-version }} \
           && composer update \
           && make build
