@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Functional\Listener;
 
+use PHPUnit\Framework\InvalidCoversTargetException;
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\RiskyTestError;
 use PHPUnit\Framework\TestCase;
@@ -50,13 +51,11 @@ class RiskyToFailedListenerTest extends TestCase
      *
      * @param $exceptionClass
      * @param $expectedReason
-     * @param bool|true $called
      * @param null $exceptionMessage
      */
     public function testShouldHandleRiskyTestWith(
         $exceptionClass,
         $expectedReason,
-        $called,
         $exceptionMessage = 'my default exception message'
     ) {
         $time = 0.3;
@@ -68,14 +67,10 @@ class RiskyToFailedListenerTest extends TestCase
         $this->listener->addRiskyTest($test, $exception, $time);
 
         $failures = $test->getTestResultObject()->failures();
-        if ($called) {
-            $this->assertCount(1, $failures);
-            $failure = array_shift($failures);
-            $this->assertInstanceOf(TestFailure::class, $failure);
-            $this->assertStringContainsString($exceptionMessage, $failure->getExceptionAsString());
-        } else {
-            $this->assertCount(0, $failures);
-        }
+        $this->assertCount(1, $failures);
+        $failure = array_shift($failures);
+        $this->assertInstanceOf(TestFailure::class, $failure);
+        $this->assertStringContainsString($exceptionMessage, $failure->getExceptionAsString());
     }
 
     /**
@@ -87,35 +82,34 @@ class RiskyToFailedListenerTest extends TestCase
             'Output exception' => [
                 'exceptionClass' => OutputError::class,
                 'expectedMessage' => 'No output during test',
-                'called' => true,
             ],
-            'Coverage exception' => [
+            'Coverage overflow - UnintentionallyCoveredCodeError' => [
                 'exceptionClass' => UnintentionallyCoveredCodeError::class,
                 'expectedMessage' => 'Executed code must be defined with @covers and @uses annotations',
-                'called' => true,
+            ],
+            'Coverage overflow - InvalidCoversTargetException instance' => [
+                'exceptionClass' => InvalidCoversTargetException::class,
+                'expectedMessage' => 'Executed code must be defined with @covers and @uses annotations',
             ],
             'Globals manipulation - globals' => [
                 'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No global variable manipulation during test',
-                'called' => true,
                 'exceptionMessage' => '--- Global variables before the test',
             ],
             'Globals manipulation - static' => [
                 'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No static attribute manipulation during test',
-                'called' => true,
                 'exceptionMessage' => '--- Static attributes before the test',
             ],
             'Test nothing' => [
                 'exceptionClass' => RiskyTestError::class,
                 'expectedMessage' => 'No test that do not test anything',
-                'called' => true,
                 'exceptionMessage' => 'This test did not perform any assertions',
             ],
             'other exceptions' => [
                 'exceptionClass' => \Exception::class,
-                'expectedMessage' => 'Risky test',
-                'called' => false,
+                'expectedMessage' => 'Arghh !',
+                'exceptionMessage' => 'Arghh !',
             ],
         ];
     }

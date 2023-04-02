@@ -2,6 +2,9 @@
 namespace Yoanm\PhpUnitExtended\Listener;
 
 use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\CoveredCodeNotExecutedException;
+use PHPUnit\Framework\InvalidCoversTargetException;
+use PHPUnit\Framework\MissingCoversAnnotationException;
 use PHPUnit\Framework\OutputError;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
@@ -74,28 +77,36 @@ class RiskyToFailedListener implements TestListener
         switch (true) {
             /* beStrictAboutOutputDuringTests="true" */
             case $e instanceof OutputError:
-                $reason = 'No output during test';
-                break;
+                return 'No output during test';
             /* checkForUnintentionallyCoveredCode="true" */
             case $e instanceof UnintentionallyCoveredCodeError:
-                $reason = 'Executed code must be defined with @covers and @uses annotations';
-                break;
+            case $e instanceof InvalidCoversTargetException:
+                return 'Executed code must be defined with @covers and @uses annotations';
             default:
-                if (preg_match('#\-\-\- Global variables before the test#', $e->getMessage())) {
+                if (str_contains($e->getMessage(), '--- Global variables before the test')) {
                     /* beStrictAboutChangesToGlobalState="true" (no specific exception) for globals */
-                    $reason = 'No global variable manipulation during test';
-                } elseif (preg_match('#\-\-\- Static attributes before the test#', $e->getMessage())) {
+                    return 'No global variable manipulation during test';
+                } elseif (str_contains($e->getMessage(), '--- Static attributes before the test')) {
                     /* beStrictAboutChangesToGlobalState="true" (no specific exception) for static var */
                     /* Only when beStrictAboutChangesToGlobalState="true" */
-                    $reason = 'No static attribute manipulation during test';
-                } elseif (preg_match('#This test did not perform any assertions#', $e->getMessage())) {
+                    return 'No static attribute manipulation during test';
+                } elseif (str_contains($e->getMessage(), 'This test did not perform any assertions')) {
                     /* beStrictAboutTestsThatDoNotTestAnything="true" (no specific exception) */
-                    $reason = 'No test that do not test anything';
-                } elseif (preg_match('#"@covers [^"]+" is invalid#', $e->getMessage())) {
+                    return 'No test that do not test anything';
+                } elseif ($e instanceof CoveredCodeNotExecutedException
+                    || preg_match('#"@covers [^"]+" is invalid#', $e->getMessage())
+                ) {
                     /* forceCoversAnnotation="true" (no specific exception) */
-                    $reason = 'Only executed code must be defined with @covers and @uses annotations';
+                    return 'Only executed code must be defined with @covers and @uses annotations';
+                } elseif ($e instanceof MissingCoversAnnotationException
+                    || str_contains(
+                        $e->getMessage(),
+                        'This test does not have a @covers annotation but is expected to have one'
+                    )
+                ) {
+                    /* forceCoversAnnotation="true" (no specific exception) */
+                    return 'Missing @covers or @coversNothing annotation';
                 }
-                break;
         }
 
         return $reason;

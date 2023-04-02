@@ -61,6 +61,11 @@ class FeatureContext implements Context
         $this->process = new Process($argList, null, $env);
 
         $this->process->run();
+
+        //var_dump(['env' => $env]);
+        //var_dump(['argList' => $argList]);
+        //var_dump(['output' => $this->process->getOutput()]);
+        //var_dump(['error' => $this->process->getErrorOutput()]);
     }
 
     /**
@@ -70,7 +75,11 @@ class FeatureContext implements Context
     {
         $output = $this->process->getOutput();
 
-        $failureCount = preg_match_all(sprintf('#There was %s failure#', $expectedFailureCount), $output);
+        $matched = preg_match_all('#There (?:was|were) (\d+) failure#', $output, $matches);
+        if ($matched === false) {
+            throw new \Exception('Error when executing preg_match_all');
+        }
+        $failureCount = $matches[1][0];
         if ($failureCount != $expectedFailureCount) {
             throw new \Exception(sprintf('Found %d failure, but %d expected', $failureCount, $expectedFailureCount));
         }
