@@ -17,19 +17,14 @@ class StrictCoverageListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addRiskyTest(Test $test, \Throwable $e, float $time) : void
+    public function addRiskyTest(Test $test, \Throwable $exception, float $time) : void
     {
-        if (/* Must be PHPUnit_Framework_TestCase instance to have access to "getTestResultObject" method */
-            $test instanceof TestCase
-            && $e instanceof OutputError
-        ) {
+        /* Must be PHPUnit\Framework\TestCase instance to have access to "getTestResultObject" method */
+        if ($test instanceof TestCase && $exception instanceof OutputError) {
             $this->removeCoverageFor($test);
         }
     }
 
-    /**
-     * @param TestCase $test
-     */
     protected function removeCoverageFor(TestCase $test)
     {
         $coverage = $test->getTestResultObject()->getCodeCoverage();

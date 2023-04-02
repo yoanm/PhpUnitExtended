@@ -32,16 +32,11 @@ class RiskyToFailedListener implements TestListener
     /**
      * {@inheritdoc}
      */
-    public function addRiskyTest(Test $test, \Throwable $e, float $time) : void
+    public function addRiskyTest(Test $test, \Throwable $exception, float $time) : void
     {
-        $this->addErrorIfNeeded($test, $e, $time);
+        $this->addErrorIfNeeded($test, $exception, $time);
     }
 
-    /**
-     * @param Test       $test
-     * @param \Throwable $exception
-     * @param $time
-     */
     protected function addErrorIfNeeded(Test $test, \Throwable $exception, $time)
     {
         /* Must be TestCase instance to have access to "getTestResultObject" method */
