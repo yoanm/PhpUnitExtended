@@ -46,32 +46,24 @@ class RiskyToFailedListener implements TestListener
     {
         /* Must be TestCase instance to have access to "getTestResultObject" method */
         if ($test instanceof TestCase) {
-            $reason = $this->getErrorReason($e);
-            if (null !== $reason) {
-                if (!$test->getTestResultObject()) {
-                    $test->setTestResultObject(new TestResult());
-                }
-                $test->getTestResultObject()->addFailure(
-                    $test,
-                    new AssertionFailedError(
-                        sprintf(
-                            "Strict mode - %s :\n%s",
-                            $reason,
-                            $e->getMessage()
-                        )
-                    ),
-                    $time
-                );
+            if (!$test->getTestResultObject()) {
+                $test->setTestResultObject(new TestResult());
             }
+            $test->getTestResultObject()->addFailure(
+                $test,
+                new AssertionFailedError(
+                    sprintf(
+                        "Strict mode - %s :\n%s",
+                        $this->getErrorReason($e),
+                        $e->getMessage()
+                    )
+                ),
+                $time
+            );
         }
     }
 
-    /**
-     * @param \Throwable $e
-     *
-     * @return null|string
-     */
-    protected function getErrorReason(\Throwable $e)
+    protected function getErrorReason(\Throwable $e): string
     {
         $reason = $e->getMessage();
         switch (true) {
